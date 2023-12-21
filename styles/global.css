@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "../public/fonts/inter.css";
+
+body {
+  background-color: white;
+  margin: 0px;
+}
+
+* {
+  font-family: 'Inter';
+}
+
+a {
+  color: #3366FF;
+  text-decoration: underline;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #d6d6d6 #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #d6d6d6;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
+
+a {
+  @apply !text-purple-700;
+  @apply text-sm;
+}
+
+.btn-submit {
+  @apply border-none;
+  @apply h-11;
+  @apply text-md;
+  @apply font-semibold;
+  @apply w-full;
+  @apply justify-center;
+}
+
+.input-basic {
+  height: 44px;
+  @apply !text-md;
+  @apply text-gray-900;
+  @apply border border-solid;
+  @apply border-gray-300;
+  @apply shadow-none;
+  @apply font-normal;
+  @apply box-border;
+}
+
+
+.input-label {
+  @apply text-sm;
+  @apply text-gray-800;
+  @apply font-medium;
+  line-height: 20px;
+  margin-bottom: 6px;
+}
+
+.select-basic [class*="-control"]{
+  min-height: 44px;
+}
+
+.textarea-basic {
+  padding: 0px;
+  min-height: 154px;
+  box-sizing: border-box;
+}
