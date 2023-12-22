@@ -8,6 +8,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import QueryProvider from '@lib/components/Wrappers/QueryProvider';
 import { Inter } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
+import GoogleRecaptchaWrapper from '@lib/components/Wrappers/GoogleRecaptchaWrapper';
 
 config.autoAddCss = false;
 
@@ -25,10 +26,12 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <QueryProvider>
-          <main className="box-border flex min-h-screen items-center justify-between p-6 sm:p-4">
-            <ToastContainer theme="light" position="bottom-left" />
-            {children}
-          </main>
+          <GoogleRecaptchaWrapper>
+            <main className="box-border flex min-h-screen items-center justify-between p-6 sm:p-4">
+              <ToastContainer theme="light" position="bottom-left" />
+              {children}
+            </main>
+          </GoogleRecaptchaWrapper>
         </QueryProvider>
       </body>
     </html>
