@@ -2,6 +2,7 @@
 
 import { allClubTypes, getClubTypeOptions } from '@lib/utils/club';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
+import { ContactType } from '@lib/hooks/contact';
 
 interface IFormProps {
   ip: string;
@@ -37,6 +38,7 @@ export default function ClubCreateForm(props: IFormProps) {
       subtitle="Complete the form below."
       shouldIncludeClub={true}
       clubTypeOptions={clubTypeOptions}
+      contactType={ContactType.ClubCreate}
     />
   );
 }

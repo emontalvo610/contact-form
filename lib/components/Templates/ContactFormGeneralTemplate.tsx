@@ -20,7 +20,9 @@ import { useForm } from 'react-hook-form';
 import { firstNameValidatorOptions, lastNameValidatorOptions, phoneNumberValidatorOptions, descriptionValidatorOptions, emailValidatorOptions, venuAddressValidatorOptions, venuNameValidatorOptions, clubNameValidatorOptions } from '@lib/validators/form-validation';
 import { validateRecaptchaToken } from '@lib/server/recaptcha';
 import AlertWrapper from '../Wrappers/AlertWrapper';
-import { ContactReasonType } from '@lib/utils/reason';
+import { ContactType, usePostContact } from '@lib/hooks/contact';
+import { useRouter } from 'next/navigation';
+import { IContactRequest } from '@lib/types/contact';
 
 interface IFormProps {
   ip: string;
@@ -32,24 +34,11 @@ interface IFormProps {
   shouldIncludeMixDoubleSkill?: boolean;
   clubTypeOptions?: Array<ISelectOption>;
   mixDoubleSkillOptions?: Array<ISelectOption>;
-};
-
-interface IContactRequest {
-  email: string;
-  firstName: string;
-  lastName: string;
-  phoneCountryId: string;
-  phoneNumber: string;
-  contactReason: ContactReasonType;
-  description: string;
-  clubName?: string;
-  clubType?: string;
-  venuName?: string;
-  venuAddress?: string;
-  mixDoubleSkill?: string;
+  contactType: ContactType;
 };
 
 export default function ContactFormGeneralTemplate(props: IFormProps) {
+  const router = useRouter();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [recaptchaResult, setRecaptchaResult] = useState(true);
   const { data: countriesData } = useGetCountries();
@@ -58,6 +47,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   const [location, setLocation] = useState<ILocation | null>(null);
   const [defaultCountryCodeOption, setDefaultCountryCodeOption] =
     useState<ICountrySelectOption | null>(null);
+  const postContact = usePostContact(props.contactType);
 
   const {
     register,
@@ -228,10 +218,12 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
           clubName,
           clubType,
           venuName,
-          venuAddress
+          venuAddress,
+          mixDoubleSkill
         } = getValues();
         // Request contact
-        console.log(getValues());
+        // await postContact(getValues());
+        router.push('/request-success');
       } catch (err) {
         setError('root.server', {
           message: 'Something went wrong. Please try again some time later'

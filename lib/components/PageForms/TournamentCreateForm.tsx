@@ -1,5 +1,6 @@
 'use client';
 
+import { ContactType } from '@lib/hooks/contact';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
@@ -30,6 +31,7 @@ export default function TournamentCreateForm(props: IFormProps) {
       title="New Tournament"
       subtitle="Complete the form below."
       contactReasonOptions={[]}
+      contactType={ContactType.TournamentCreate}
     />
   )
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { ContactType } from '@lib/hooks/contact';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 import { getContactReasonOptions } from '@lib/utils/reason';
 
@@ -16,6 +17,7 @@ export default function LeagueContactForm(props: IFormProps) {
       title="4.0+ Mens Doubles"
       subtitle="Complete the form below and we'll get back to you."
       contactReasonOptions={contactReasonOptions}
+      contactType={ContactType.League}
     />
   )
 }

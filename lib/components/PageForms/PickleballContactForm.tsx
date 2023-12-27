@@ -1,5 +1,6 @@
 'use client';
 
+import { ContactType } from '@lib/hooks/contact';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 import { getContactReasonOptions } from '@lib/utils/reason';
 
@@ -27,6 +28,7 @@ export default function PickleballContactForm(props: IFormProps) {
       title="Contact us"
       subtitle="Complete the form below and we'll get back to you."
       contactReasonOptions={contactReasonOptions}
+      contactType={ContactType.Pickleball}
     />
   )
 }

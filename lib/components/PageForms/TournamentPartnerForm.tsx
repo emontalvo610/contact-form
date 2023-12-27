@@ -2,6 +2,7 @@
 
 import { getAllMixDoubleSkillOptions } from '@lib/utils/mixDoubleSkill';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
+import { ContactType } from '@lib/hooks/contact';
 
 interface IFormProps {
   ip: string;
@@ -16,6 +17,7 @@ export default function TournamentPartnerForm(props: IFormProps) {
       subtitle=""
       shouldIncludeMixDoubleSkill={true}
       mixDoubleSkillOptions={mixDoubleSkillOptions}
+      contactType={ContactType.TournamentPartner}
     />
   )
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { ContactType } from '@lib/hooks/contact';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
@@ -30,6 +31,7 @@ export default function LeagueCreateForm(props: IFormProps) {
       title="New League"
       subtitle="Complete the form below."
       contactReasonOptions={[]}
+      contactType={ContactType.LeagueCreate}
     />
   )
 }
