@@ -32,6 +32,27 @@ export const descriptionValidatorOptions: RegisterOptions<any, 'description'> = 
   }
 };
 
+export const clubNameValidatorOptions: RegisterOptions<any, 'clubName'> = {
+  required: {
+    value: true,
+    message: 'Club name is required'
+  }
+};
+
+export const venuNameValidatorOptions: RegisterOptions<any, 'venuName'> = {
+  required: {
+    value: true,
+    message: 'Venu name is required'
+  }
+};
+
+export const venuAddressValidatorOptions: RegisterOptions<any, 'venuAddress'> = {
+  required: {
+    value: true,
+    message: 'Venu address is required'
+  }
+};
+
 export const phoneNumberValidatorOptions: RegisterOptions<
   any,
   'phoneNumber'
