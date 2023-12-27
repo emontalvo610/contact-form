@@ -29,7 +29,9 @@ interface IFormProps {
   alertContent?: ReactNode;
   contactReasonOptions?: Array<ISelectOption>;
   shouldIncludeClub?: boolean;
+  shouldIncludeMixDoubleSkill?: boolean;
   clubTypeOptions?: Array<ISelectOption>;
+  mixDoubleSkillOptions?: Array<ISelectOption>;
 };
 
 interface IContactRequest {
@@ -44,6 +46,7 @@ interface IContactRequest {
   clubType?: string;
   venuName?: string;
   venuAddress?: string;
+  mixDoubleSkill?: string;
 };
 
 export default function ContactFormGeneralTemplate(props: IFormProps) {
@@ -104,7 +107,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   };
 
   const checkManualValidation = () => {
-    const { phoneCountryId, contactReason, clubType } = getValues();
+    const { phoneCountryId, contactReason, clubType, mixDoubleSkill } = getValues();
     let valid = true;
     if (phoneCountryId) {
       clearErrors('phoneCountryId');
@@ -122,6 +125,12 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       clearErrors('clubType');
     } else {
       setError('clubType', { message: 'Club type is required' });
+      valid = false;
+    }
+    if (mixDoubleSkill) {
+      clearErrors('mixDoubleSkill');
+    } else {
+      setError('mixDoubleSkill', { message: 'Mix Double Skill is required' });
       valid = false;
     }
     return valid;
@@ -170,6 +179,14 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       option => option.value === clubType
     );
     return selectedClubTypeOption;
+  };
+
+  const getSelectedMixDoubleSkillOption = () => {
+    const mixDoubleSkill = watch('mixDoubleSkill');
+    const selectedMixDoubleSkillOption = props.mixDoubleSkillOptions?.find(
+      option => option.value === mixDoubleSkill
+    );
+    return selectedMixDoubleSkillOption;
   };
   
   const onClickSubmit = () => {
@@ -294,7 +311,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                 <div className="flex-1">
                   <InputField
                     label="Phone Number"
-                    maxLength={10}
+                    maxLength={13}
                     className="input-basic"
                     {...register('phoneNumber', phoneNumberValidatorOptions)}
                   />
@@ -315,6 +332,22 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                   <ErrorWrapper>{errors.contactReason?.message}</ErrorWrapper>
                 </div>
               )}
+              {props.shouldIncludeMixDoubleSkill && (
+                <>
+                  <div className="mt-3 text-left">
+                    <div className="input-label">Mix Double Skill</div>
+                    <Select
+                      className="select-basic"
+                      instanceId="mix-double-skill-select"
+                      placeholder="Select a Type"
+                      options={props.mixDoubleSkillOptions}
+                      value={getSelectedMixDoubleSkillOption()}
+                      onChange={option => onSelectChange(option, 'mixDoubleSkill')}
+                    />
+                    <ErrorWrapper>{errors.mixDoubleSkill?.message}</ErrorWrapper>
+                  </div>
+                </>
+              )}
               {props.shouldIncludeClub && (
                 <>
                   <div className="mt-1 text-left">
@@ -330,7 +363,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                     <div className="input-label">Club Type</div>
                     <Select
                       className="select-basic"
-                      instanceId="reason-select"
+                      instanceId="clubtype-select"
                       placeholder="Select a Type"
                       options={props.clubTypeOptions}
                       value={getSelectedClubTypeOption()}
