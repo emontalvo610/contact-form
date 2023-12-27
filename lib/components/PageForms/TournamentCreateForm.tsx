@@ -30,7 +30,6 @@ export default function TournamentCreateForm(props: IFormProps) {
       alertContent={<HelpAlert />}
       title="New Tournament"
       subtitle="Complete the form below."
-      contactReasonOptions={[]}
       contactType={ContactType.TournamentCreate}
     />
   )

@@ -30,7 +30,6 @@ export default function LeagueCreateForm(props: IFormProps) {
       alertContent={<HelpAlert />}
       title="New League"
       subtitle="Complete the form below."
-      contactReasonOptions={[]}
       contactType={ContactType.LeagueCreate}
     />
   )
