@@ -1,8 +1,10 @@
 import 'server-only';
 
+import type { ISessionUser } from '@lib/types/user';
 import type { IronSessionData } from 'iron-session';
 import { cookies } from 'next/headers';
 
+import { getUser } from '../api';
 import {
   getIronSession,
   getServerActionIronSession,
@@ -22,16 +24,7 @@ export const sessionOptions: IronSessionOptions = {
 declare module 'iron-session' {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   interface IronSessionData {
-    user?: {
-      email: string;
-      isSuperAdmin: boolean;
-      uuid: string;
-      token: string;
-      expiration: string;
-      isCompleted: boolean;
-      oltToken: string;
-      pbUuid: string;
-    };
+    user?: ISessionUser;
   }
 }
 
@@ -52,4 +45,14 @@ const getServerActionSession = async () => {
   return session;
 };
 
-export { getServerActionSession, getSession };
+const getServerActionUser = async () => {
+  const session = await getServerActionSession();
+  const uuid = session?.user?.uuid;
+  if (uuid) {
+    const user = await getUser(uuid);
+    return user || undefined;
+  }
+  return undefined;
+};
+
+export { getServerActionSession, getServerActionUser, getSession };
