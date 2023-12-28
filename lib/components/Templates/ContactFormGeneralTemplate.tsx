@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
-/* eslint-disable unused-imports/no-unused-vars */
-
 'use client';
 
 import TermsAndPolicy from '@components/Footers/TermsAndPolicy';
