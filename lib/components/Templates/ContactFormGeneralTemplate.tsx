@@ -31,7 +31,6 @@ interface IFormProps {
   alertContent?: ReactNode;
   contactReasonOptions?: Array<ISelectOption>;
   shouldIncludeClub?: boolean;
-  shouldIncludeMixDoubleSkill?: boolean;
   clubTypeOptions?: Array<ISelectOption>;
   mixDoubleSkillOptions?: Array<ISelectOption>;
   contactType: ContactType;
@@ -105,23 +104,29 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       setError('phoneCountryId', { message: 'Country is required' });
       valid = false;
     }
-    if (contactReason) {
-      clearErrors('contactReason');
-    } else {
-      setError('contactReason', { message: 'Reason is required' });
-      valid = false;
+    if (Number(props.contactReasonOptions?.length) > 0) {
+      if (contactReason) {
+        clearErrors('contactReason');
+      } else {
+        setError('contactReason', { message: 'Reason is required' });
+        valid = false;
+      }
     }
-    if (clubType) {
-      clearErrors('clubType');
-    } else {
-      setError('clubType', { message: 'Club type is required' });
-      valid = false;
+    if (props.shouldIncludeClub) {
+      if (clubType) {
+        clearErrors('clubType');
+      } else {
+        setError('clubType', { message: 'Club type is required' });
+        valid = false;
+      }
     }
-    if (mixDoubleSkill) {
-      clearErrors('mixDoubleSkill');
-    } else {
-      setError('mixDoubleSkill', { message: 'Mix Double Skill is required' });
-      valid = false;
+    if (Number(props.mixDoubleSkillOptions?.length) > 0) {
+      if (mixDoubleSkill) {
+        clearErrors('mixDoubleSkill');
+      } else {
+        setError('mixDoubleSkill', { message: 'Mix Double Skill is required' });
+        valid = false;
+      }
     }
     return valid;
   };
@@ -324,7 +329,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                   <ErrorWrapper>{errors.contactReason?.message}</ErrorWrapper>
                 </div>
               )}
-              {props.shouldIncludeMixDoubleSkill && (
+              {Number(props.mixDoubleSkillOptions?.length) > 0 && (
                 <>
                   <div className="mt-3 text-left">
                     <div className="input-label">Mix Double Skill</div>

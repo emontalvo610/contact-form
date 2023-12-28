@@ -15,7 +15,6 @@ export default function TournamentPartnerForm(props: IFormProps) {
       ip={props.ip}
       title="Contact a player to partner with"
       subtitle=""
-      shouldIncludeMixDoubleSkill={true}
       mixDoubleSkillOptions={mixDoubleSkillOptions}
       contactType={ContactType.TournamentPartner}
     />
