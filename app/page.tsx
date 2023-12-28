@@ -8,6 +8,8 @@ export default async function ContactFormPage() {
   const session = await getServerActionSession();
   // eslint-disable-next-line unused-imports/no-unused-vars
   const { user } = session;
+  // eslint-disable-next-line no-console
+  console.log(user);
 
   return <PickleballContactForm ip={ip} />;
 }
