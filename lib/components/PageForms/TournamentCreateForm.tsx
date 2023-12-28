@@ -1,11 +1,13 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
+import type { IUser } from '@lib/types/user';
 
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
   ip: string;
+  user?: IUser;
 }
 
 const HelpAlert = () => {
@@ -35,6 +37,7 @@ export default function TournamentCreateForm(props: IFormProps) {
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
+      user={props.user}
       alertContent={<HelpAlert />}
       title="New Tournament"
       subtitle="Complete the form below."

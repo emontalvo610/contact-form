@@ -1,12 +1,14 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
+import type { IUser } from '@lib/types/user';
 import { allClubTypes, getClubTypeOptions } from '@lib/utils/club';
 
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
   ip: string;
+  user?: IUser;
 }
 
 const HelpAlert = () => {
@@ -44,6 +46,7 @@ export default function ClubCreateForm(props: IFormProps) {
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
+      user={props.user}
       alertContent={<HelpAlert />}
       title="New Club"
       subtitle="Complete the form below."

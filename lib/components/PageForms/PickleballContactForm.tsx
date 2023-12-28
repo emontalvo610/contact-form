@@ -1,12 +1,14 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
+import type { IUser } from '@lib/types/user';
 import { getContactReasonOptions } from '@lib/utils/reason';
 
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
   ip: string;
+  user?: IUser;
 }
 
 const HelpAlert = () => {
@@ -36,6 +38,7 @@ export default function PickleballContactForm(props: IFormProps) {
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
+      user={props.user}
       alertContent={<HelpAlert />}
       title="Contact us"
       subtitle="Complete the form below and we'll get back to you."

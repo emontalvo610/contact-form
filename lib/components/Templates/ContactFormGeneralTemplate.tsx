@@ -8,6 +8,7 @@ import { validateRecaptchaToken } from '@lib/server/recaptcha';
 import type { IContactRequest } from '@lib/types/contact';
 import type { ILocation } from '@lib/types/location';
 import type { ICountrySelectOption, ISelectOption } from '@lib/types/select';
+import type { IUser } from '@lib/types/user';
 import { getLocationFromIP } from '@lib/utils/location';
 import {
   clubNameValidatorOptions,
@@ -41,6 +42,7 @@ interface IFormProps {
   clubTypeOptions?: Array<ISelectOption>;
   mixDoubleSkillOptions?: Array<ISelectOption>;
   contactType: ContactType;
+  user?: IUser;
 }
 
 export default function ContactFormGeneralTemplate(props: IFormProps) {
@@ -65,7 +67,14 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
     clearErrors,
     handleSubmit,
     formState: { errors }
-  } = useForm<IContactRequest>();
+  } = useForm<IContactRequest>({
+    defaultValues: {
+      email: props.user?.email || '',
+      firstName: props.user?.firstName || '',
+      lastName: props.user?.lastName || '',
+      phoneNumber: props.user?.phone
+    }
+  });
 
   useEffect(() => {
     getLocationFromIP(props.ip).then(location => {
@@ -132,7 +141,11 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   const getDefaultCountryCodeOption = () => {
     const countryOptions = getCountryCodesOptions();
     let result;
-    if (location?.error) {
+    if (props.user?.phoneCountryId) {
+      result = countryOptions.find(
+        country => country.value === props.user?.phoneCountryId
+      );
+    } else if (location?.error) {
       result = countryOptions[0];
     } else {
       result = countryOptions.find(
