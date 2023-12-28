@@ -5,10 +5,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { config } from '@fortawesome/fontawesome-svg-core';
+import GoogleRecaptchaWrapper from '@lib/components/Wrappers/GoogleRecaptchaWrapper';
 import QueryProvider from '@lib/components/Wrappers/QueryProvider';
 import { Inter } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
-import GoogleRecaptchaWrapper from '@lib/components/Wrappers/GoogleRecaptchaWrapper';
 
 config.autoAddCss = false;
 
