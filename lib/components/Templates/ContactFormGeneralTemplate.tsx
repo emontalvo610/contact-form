@@ -2,7 +2,7 @@
 
 import TermsAndPolicy from '@components/Footers/TermsAndPolicy';
 import type { ContactType } from '@lib/hooks/contact';
-import { usePostContact } from '@lib/hooks/contact';
+// import { usePostContact } from '@lib/hooks/contact';
 import { useGetCountries } from '@lib/hooks/country';
 import { validateRecaptchaToken } from '@lib/server/recaptcha';
 import type { IContactRequest } from '@lib/types/contact';
@@ -53,7 +53,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   const [location, setLocation] = useState<ILocation | null>(null);
   const [defaultCountryCodeOption, setDefaultCountryCodeOption] =
     useState<ICountrySelectOption | null>(null);
-  const postContact = usePostContact(props.contactType);
+  // const postContact = usePostContact(props.contactType);
 
   const {
     register,
@@ -210,20 +210,20 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
 
     if (isHuman) {
       try {
-        const {
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          phoneCountryId,
-          contactReason,
-          description,
-          clubName,
-          clubType,
-          venuName,
-          venuAddress,
-          mixDoubleSkill
-        } = getValues();
+        // const {
+        //   firstName,
+        //   lastName,
+        //   email,
+        //   phoneNumber,
+        //   phoneCountryId,
+        //   contactReason,
+        //   description,
+        //   clubName,
+        //   clubType,
+        //   venuName,
+        //   venuAddress,
+        //   mixDoubleSkill
+        // } = getValues();
         // Request contact
         // await postContact(getValues());
         router.push('/request-success');
@@ -238,185 +238,177 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   };
 
   return (
-    <>
-      <div className="flex w-[100vw] flex-col items-center self-start pt-10 sm:pt-2">
-        <div className="pb-8">
-          <LogoButton />
+    <div className="flex w-[100vw] flex-col items-center self-start pt-10 sm:pt-2">
+      <div className="pb-8">
+        <LogoButton />
+      </div>
+      <div className="box-border flex w-[512px] flex-col items-center rounded-[12px] bg-white sm:h-full sm:w-full sm:max-w-[420px] sm:px-4 sm:pb-4">
+        <div className="text-center text-[30px] font-semibold leading-9 sm:text-[24px]">
+          {props.title}
         </div>
-        <div className="box-border flex w-[512px] flex-col items-center rounded-[12px] bg-white sm:h-full sm:w-full sm:max-w-[420px] sm:px-4 sm:pb-4">
-          <div className="text-[30px] text-center font-semibold leading-9 sm:text-[24px]">
-            {props.title}
+        <div className="mt-3 text-center text-md font-normal leading-6 text-gray-600">
+          {props.subtitle}
+        </div>
+        {props.alertContent && (
+          <div className="mt-8">
+            <AlertWrapper>{props.alertContent}</AlertWrapper>
           </div>
-          <div className='text-md font-normal leading-6 text-gray-600 mt-3 text-center'>
-            {props.subtitle}
-          </div>
-          {props.alertContent && (
-            <div className='mt-8'>
-              <AlertWrapper>
-                {props.alertContent}
-              </AlertWrapper>
+        )}
+        <div className="mt-10 w-full">
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+            <div className="mt-1 text-left">
+              <InputField
+                label="Email"
+                className="input-basic"
+                autoFocus
+                {...register('email', emailValidatorOptions)}
+              />
+              <ErrorWrapper>{errors.email?.message}</ErrorWrapper>
             </div>
-          )}
-          <div className="mt-10 w-full">
-            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-              <div className="mt-1 text-left">
+            <div className="mt-3 flex flex-col gap-3 text-left">
+              <div className="flex-1">
                 <InputField
-                  label="Email"
+                  label="First Name"
                   className="input-basic"
-                  autoFocus
-                  {...register('email', emailValidatorOptions)}
+                  {...register('firstName', firstNameValidatorOptions)}
                 />
-                <ErrorWrapper>{errors.email?.message}</ErrorWrapper>
+                <ErrorWrapper>{errors.firstName?.message}</ErrorWrapper>
               </div>
-              <div className="mt-3 flex flex-col gap-3 text-left">
-                <div className="flex-1">
-                  <InputField
-                    label="First Name"
-                    className="input-basic"
-                    {...register('firstName', firstNameValidatorOptions)}
-                  />
-                  <ErrorWrapper>{errors.firstName?.message}</ErrorWrapper>
-                </div>
-                <div className="flex-1">
-                  <InputField
-                    label="Last Name"
-                    className="input-basic"
-                    {...register('lastName', lastNameValidatorOptions)}
-                  />
-                  <ErrorWrapper>{errors.lastName?.message}</ErrorWrapper>
-                </div>
+              <div className="flex-1">
+                <InputField
+                  label="Last Name"
+                  className="input-basic"
+                  {...register('lastName', lastNameValidatorOptions)}
+                />
+                <ErrorWrapper>{errors.lastName?.message}</ErrorWrapper>
               </div>
-              <div className="mt-3 flex flex-wrap gap-5 text-left sm:gap-2">
-                <div className="min-w-[120px] basis-[140px] sm:basis-[30%]">
-                  <div className="input-label">Country</div>
-                  <Select
-                    options={getCountryCodesOptions()}
-                    className="select-basic"
-                    instanceId="country-code-select"
-                    placeholder=""
-                    onChange={option =>
-                      onSelectChange(option, 'phoneCountryId')
-                    }
-                    value={
-                      getSelectedCountryCodeOption() || defaultCountryCodeOption
-                    }
-                  />
-                  <ErrorWrapper>{errors.phoneCountryId?.message}</ErrorWrapper>
-                </div>
-                <div className="flex-1 max-w-[200px]">
-                  <InputField
-                    label="Phone Number"
-                    maxLength={13}
-                    className="input-basic"
-                    {...register('phoneNumber', phoneNumberValidatorOptions)}
-                  />
-                  <ErrorWrapper>{errors.phoneNumber?.message}</ErrorWrapper>
-                </div>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-5 text-left sm:gap-2">
+              <div className="min-w-[120px] basis-[140px] sm:basis-[30%]">
+                <div className="input-label">Country</div>
+                <Select
+                  options={getCountryCodesOptions()}
+                  className="select-basic"
+                  instanceId="country-code-select"
+                  placeholder=""
+                  onChange={option => onSelectChange(option, 'phoneCountryId')}
+                  value={
+                    getSelectedCountryCodeOption() || defaultCountryCodeOption
+                  }
+                />
+                <ErrorWrapper>{errors.phoneCountryId?.message}</ErrorWrapper>
               </div>
-              {Number(props.contactReasonOptions?.length) > 0 && (
+              <div className="max-w-[200px] flex-1">
+                <InputField
+                  label="Phone Number"
+                  maxLength={13}
+                  className="input-basic"
+                  {...register('phoneNumber', phoneNumberValidatorOptions)}
+                />
+                <ErrorWrapper>{errors.phoneNumber?.message}</ErrorWrapper>
+              </div>
+            </div>
+            {Number(props.contactReasonOptions?.length) > 0 && (
+              <div className="mt-3 text-left">
+                <div className="input-label">Reason for Contact</div>
+                <Select
+                  className="select-basic"
+                  instanceId="reason-select"
+                  placeholder=""
+                  options={props.contactReasonOptions}
+                  value={getSelectedReasonOption()}
+                  onChange={option => onSelectChange(option, 'contactReason')}
+                />
+                <ErrorWrapper>{errors.contactReason?.message}</ErrorWrapper>
+              </div>
+            )}
+            {Number(props.mixDoubleSkillOptions?.length) > 0 && (
+              <div className="mt-3 text-left">
+                <div className="input-label">Mix Double Skill</div>
+                <Select
+                  className="select-basic"
+                  instanceId="mix-double-skill-select"
+                  placeholder="Select a Type"
+                  options={props.mixDoubleSkillOptions}
+                  value={getSelectedMixDoubleSkillOption()}
+                  onChange={option => onSelectChange(option, 'mixDoubleSkill')}
+                />
+                <ErrorWrapper>{errors.mixDoubleSkill?.message}</ErrorWrapper>
+              </div>
+            )}
+            {props.shouldIncludeClub && (
+              <>
+                <div className="mt-1 text-left">
+                  <InputField
+                    label="Club Name"
+                    className="input-basic"
+                    autoFocus
+                    {...register('clubName', clubNameValidatorOptions)}
+                  />
+                  <ErrorWrapper>{errors.clubName?.message}</ErrorWrapper>
+                </div>
                 <div className="mt-3 text-left">
-                  <div className="input-label">Reason for Contact</div>
+                  <div className="input-label">Club Type</div>
                   <Select
                     className="select-basic"
-                    instanceId="reason-select"
-                    placeholder=""
-                    options={props.contactReasonOptions}
-                    value={getSelectedReasonOption()}
-                    onChange={option => onSelectChange(option, 'contactReason')}
+                    instanceId="clubtype-select"
+                    placeholder="Select a Type"
+                    options={props.clubTypeOptions}
+                    value={getSelectedClubTypeOption()}
+                    onChange={option => onSelectChange(option, 'clubType')}
                   />
-                  <ErrorWrapper>{errors.contactReason?.message}</ErrorWrapper>
+                  <ErrorWrapper>{errors.clubType?.message}</ErrorWrapper>
                 </div>
-              )}
-              {Number(props.mixDoubleSkillOptions?.length) > 0 && (
-                <>
-                  <div className="mt-3 text-left">
-                    <div className="input-label">Mix Double Skill</div>
-                    <Select
-                      className="select-basic"
-                      instanceId="mix-double-skill-select"
-                      placeholder="Select a Type"
-                      options={props.mixDoubleSkillOptions}
-                      value={getSelectedMixDoubleSkillOption()}
-                      onChange={option => onSelectChange(option, 'mixDoubleSkill')}
-                    />
-                    <ErrorWrapper>{errors.mixDoubleSkill?.message}</ErrorWrapper>
-                  </div>
-                </>
-              )}
-              {props.shouldIncludeClub && (
-                <>
-                  <div className="mt-1 text-left">
-                    <InputField
-                      label="Club Name"
-                      className="input-basic"
-                      autoFocus
-                      {...register('clubName', clubNameValidatorOptions)}
-                    />
-                    <ErrorWrapper>{errors.clubName?.message}</ErrorWrapper>
-                  </div>
-                  <div className="mt-3 text-left">
-                    <div className="input-label">Club Type</div>
-                    <Select
-                      className="select-basic"
-                      instanceId="clubtype-select"
-                      placeholder="Select a Type"
-                      options={props.clubTypeOptions}
-                      value={getSelectedClubTypeOption()}
-                      onChange={option => onSelectChange(option, 'clubType')}
-                    />
-                    <ErrorWrapper>{errors.clubType?.message}</ErrorWrapper>
-                  </div>
-                  <div className="mt-1 text-left">
-                    <InputField
-                      label="Venu Name"
-                      className="input-basic"
-                      autoFocus
-                      {...register('venuName', venuNameValidatorOptions)}
-                    />
-                    <ErrorWrapper>{errors.venuName?.message}</ErrorWrapper>
-                  </div>
-                  <div className='mt-3 text-left'>
-                    <div className="input-label">Venu Address</div>
-                    <TextArea
-                      className="textarea-basic resize-y"
-                      {...register('venuAddress', venuAddressValidatorOptions)}
-                    />
-                    <ErrorWrapper>{errors.venuAddress?.message}</ErrorWrapper>
-                  </div>
-                </>
-              )}
-              <div className='mt-3 text-left'>
-                <div className="input-label">Description</div>
-                <TextArea
-                  className="textarea-basic resize-y"
-                  {...register('description', descriptionValidatorOptions)}
-                />
-                <ErrorWrapper>{errors.description?.message}</ErrorWrapper>
-              </div>
-              {!recaptchaResult && (
-                <ErrorWrapper>
-                  We were unable to verify that you are not a robot. Please
-                  ensure your browser has cookies and JavaScript enabled.
-                </ErrorWrapper>
-              )}
-              <Button
-                variant="primary"
-                className="btn-submit mt-10"
-                type="submit"
-                onClick={onClickSubmit}
-                disabled={isLoading}
-              >
-                {isLoading && <Spinner />}
-                Send Request
-              </Button>
-              <ErrorWrapper>{errors.root?.server.message}</ErrorWrapper>
-            </form>
-          </div>
-          <div className="mt-8 mb-8 sm:mb-2">
-            <TermsAndPolicy />
-          </div>
+                <div className="mt-1 text-left">
+                  <InputField
+                    label="Venu Name"
+                    className="input-basic"
+                    autoFocus
+                    {...register('venuName', venuNameValidatorOptions)}
+                  />
+                  <ErrorWrapper>{errors.venuName?.message}</ErrorWrapper>
+                </div>
+                <div className="mt-3 text-left">
+                  <div className="input-label">Venu Address</div>
+                  <TextArea
+                    className="textarea-basic resize-y"
+                    {...register('venuAddress', venuAddressValidatorOptions)}
+                  />
+                  <ErrorWrapper>{errors.venuAddress?.message}</ErrorWrapper>
+                </div>
+              </>
+            )}
+            <div className="mt-3 text-left">
+              <div className="input-label">Description</div>
+              <TextArea
+                className="textarea-basic resize-y"
+                {...register('description', descriptionValidatorOptions)}
+              />
+              <ErrorWrapper>{errors.description?.message}</ErrorWrapper>
+            </div>
+            {!recaptchaResult && (
+              <ErrorWrapper>
+                We were unable to verify that you are not a robot. Please ensure
+                your browser has cookies and JavaScript enabled.
+              </ErrorWrapper>
+            )}
+            <Button
+              variant="primary"
+              className="btn-submit mt-10"
+              type="submit"
+              onClick={onClickSubmit}
+              disabled={isLoading}
+            >
+              {isLoading && <Spinner />}
+              Send Request
+            </Button>
+            <ErrorWrapper>{errors.root?.server.message}</ErrorWrapper>
+          </form>
+        </div>
+        <div className="my-8 sm:mb-2">
+          <TermsAndPolicy />
         </div>
       </div>
-    </>
+    </div>
   );
 }
