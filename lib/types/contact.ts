@@ -1,4 +1,4 @@
-import { ContactReasonType } from "@lib/utils/reason";
+import type { ContactReasonType } from '@lib/utils/reason';
 
 export interface IContactRequest {
   email: string;
@@ -13,4 +13,4 @@ export interface IContactRequest {
   venuName?: string;
   venuAddress?: string;
   mixDoubleSkill?: string;
-};
+}

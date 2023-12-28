@@ -1,5 +1,5 @@
-import { Country } from "@lib/types/country";
-import axios from "axios";
+import type { Country } from '@lib/types/country';
+import axios from 'axios';
 
 export const getCountries = async () => {
   const response = await axios.get<{ results: Country[] }>(

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { type CookieSerializeOptions, parse, serialize } from 'cookie';
 import type { IncomingMessage, ServerResponse } from 'http';
 import {

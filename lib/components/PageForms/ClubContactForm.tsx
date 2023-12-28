@@ -1,15 +1,22 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
-import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 import { getContactReasonOptions } from '@lib/utils/reason';
+
+import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
   ip: string;
-};
+}
 
 export default function ClubContactForm(props: IFormProps) {
-  const contactReasonOptions = getContactReasonOptions(["Registration", "Refunds", "Sponsors", "MyWebsiteAccount", "Other"]);
+  const contactReasonOptions = getContactReasonOptions([
+    'Registration',
+    'Refunds',
+    'Sponsors',
+    'MyWebsiteAccount',
+    'Other'
+  ]);
 
   return (
     <ContactFormGeneralTemplate
@@ -19,5 +26,5 @@ export default function ClubContactForm(props: IFormProps) {
       contactReasonOptions={contactReasonOptions}
       contactType={ContactType.Club}
     />
-  )
+  );
 }

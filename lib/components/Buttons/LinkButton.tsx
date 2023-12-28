@@ -1,3 +1,5 @@
+/* eslint-disable tailwindcss/no-custom-classname */
+
 'use client';
 
 import { Button } from '@pickleballinc/react-ui';
@@ -25,7 +27,7 @@ const LinkButton = ({
       disabled={disabled}
     >
       {href && (
-        <Link className="btn-link" href={href} target='_blank'>
+        <Link className="btn-link" href={href} target="_blank">
           {children}
         </Link>
       )}

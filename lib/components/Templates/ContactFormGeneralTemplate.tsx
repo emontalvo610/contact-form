@@ -1,28 +1,40 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
+/* eslint-disable unused-imports/no-unused-vars */
+
 'use client';
 
 import TermsAndPolicy from '@components/Footers/TermsAndPolicy';
+import type { ContactType } from '@lib/hooks/contact';
+import { usePostContact } from '@lib/hooks/contact';
+import { useGetCountries } from '@lib/hooks/country';
+import { validateRecaptchaToken } from '@lib/server/recaptcha';
+import type { IContactRequest } from '@lib/types/contact';
+import type { ILocation } from '@lib/types/location';
+import type { ICountrySelectOption, ISelectOption } from '@lib/types/select';
+import { getLocationFromIP } from '@lib/utils/location';
 import {
-  Button,
-  InputField,
-  Select,
-  TextArea
-} from '@pickleballinc/react-ui';
+  clubNameValidatorOptions,
+  descriptionValidatorOptions,
+  emailValidatorOptions,
+  firstNameValidatorOptions,
+  lastNameValidatorOptions,
+  phoneNumberValidatorOptions,
+  venuAddressValidatorOptions,
+  venuNameValidatorOptions
+} from '@lib/validators/form-validation';
+import { Button, InputField, Select, TextArea } from '@pickleballinc/react-ui';
+import { useRouter } from 'next/navigation';
+import type { ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useForm } from 'react-hook-form';
+
 import LogoButton from '../Buttons/LogoButton';
 import Spinner from '../Loadings/Spinner';
-import ErrorWrapper from '../Wrappers/ErrorWrapper';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { ICountrySelectOption, ISelectOption } from '@lib/types/select';
-import { getLocationFromIP } from '@lib/utils/location';
-import { ILocation } from '@lib/types/location';
-import { useGetCountries } from '@lib/hooks/country';
-import { useForm } from 'react-hook-form';
-import { firstNameValidatorOptions, lastNameValidatorOptions, phoneNumberValidatorOptions, descriptionValidatorOptions, emailValidatorOptions, venuAddressValidatorOptions, venuNameValidatorOptions, clubNameValidatorOptions } from '@lib/validators/form-validation';
-import { validateRecaptchaToken } from '@lib/server/recaptcha';
 import AlertWrapper from '../Wrappers/AlertWrapper';
-import { ContactType, usePostContact } from '@lib/hooks/contact';
-import { useRouter } from 'next/navigation';
-import { IContactRequest } from '@lib/types/contact';
+import ErrorWrapper from '../Wrappers/ErrorWrapper';
 
 interface IFormProps {
   ip: string;
@@ -34,7 +46,7 @@ interface IFormProps {
   clubTypeOptions?: Array<ISelectOption>;
   mixDoubleSkillOptions?: Array<ISelectOption>;
   contactType: ContactType;
-};
+}
 
 export default function ContactFormGeneralTemplate(props: IFormProps) {
   const router = useRouter();
@@ -96,7 +108,8 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   };
 
   const checkManualValidation = () => {
-    const { phoneCountryId, contactReason, clubType, mixDoubleSkill } = getValues();
+    const { phoneCountryId, contactReason, clubType, mixDoubleSkill } =
+      getValues();
     let valid = true;
     if (phoneCountryId) {
       clearErrors('phoneCountryId');
@@ -183,7 +196,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
     );
     return selectedMixDoubleSkillOption;
   };
-  
+
   const onClickSubmit = () => {
     isSubmitted.current = true;
     if (checkManualValidation()) trigger();
@@ -238,7 +251,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       }
     }
   };
-  
+
   return (
     <>
       <div className="flex w-[100vw] flex-col items-center self-start pt-10 sm:pt-2">

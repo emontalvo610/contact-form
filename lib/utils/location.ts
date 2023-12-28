@@ -1,5 +1,6 @@
-import axios from "axios";
-import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
+/* eslint-disable no-console */
+import axios from 'axios';
+import type { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
 
 export const extractIP = (header: ReadonlyHeaders) => {
   const forwardAddr = (header.get('x-forwarded-for') ?? '127.0.0.1').split(

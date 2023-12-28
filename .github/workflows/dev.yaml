@@ -1,0 +1,93 @@
+name: Development
+
+on:
+  push:
+    branches:
+      - main 
+  workflow_dispatch:
+
+env:
+  REGION: us-east-1
+  ECR_REPOSITORY: contact-form-dev
+  CLUSTER_NAME: pb-cluster-dev
+  TASK_DEFINITION_NAME: contact-form-dev-task-def
+  SERVICE_NAME: contact-form-service
+  NEXT_PUBLIC_RECAPTCHA_SITE_KEY: 6LdyWv4oAAAAAKy8sYBsjVwJvFCCpCDh1K9gk7Ga
+  API_URL: https://api.pickleballdev.net
+  COOKIE_DOMAIN: pickleballdev.net
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          DOCKER_BUILDKIT: 1
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          FONT_AWESOME_TOKEN: ${{ secrets.FONT_AWESOME_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PQINA_TOKEN: ${{ secrets.PQINA_TOKEN }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f ./.deployment/docker/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg FONT_AWESOME_TOKEN=${{ env.FONT_AWESOME_TOKEN}} --build-arg PQINA_TOKEN=${{ env.PQINA_TOKEN }} --build-arg GITHUB_TOKEN=${{ env.GITHUB_TOKEN }} --build-arg NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }} --build-arg API_URL=${{ env.API_URL }} --build-arg COOKIE_DOMAIN=${{ env.COOKIE_DOMAIN }}
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Check Amazon ECS service status
+        id: service-check
+        run: >
+          echo "status=$(aws ecs describe-services --cluster ${{ env.CLUSTER_NAME }} --services ${{ env.SERVICE_NAME }} | jq --raw-output 'select(.services[].status == "ACTIVE") | .services[].status')" >> $GITHUB_OUTPUT
+
+      - name: Download task definition
+        if: steps.service-check.outputs.status == 'ACTIVE'
+        env:
+          TASK_DEFINITION_NAME: ${{ env.TASK_DEFINITION_NAME }}
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION_NAME }} --query taskDefinition | jq -r 'del(
+            .taskDefinitionArn,
+            .requiresAttributes,
+            .compatibilities,
+            .revision,
+            .status,
+            .registeredAt,
+            .registeredBy
+          )' > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        if: steps.service-check.outputs.status == 'ACTIVE'
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: contact-form
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        if: steps.service-check.outputs.status == 'ACTIVE'
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.SERVICE_NAME }}
+          cluster: ${{ env.CLUSTER_NAME }}
+          wait-for-service-stability: true

@@ -1,5 +1,6 @@
-import { IContactRequest } from "@lib/types/contact";
-import axios from "axios";
+/* eslint-disable default-case */
+import type { IContactRequest } from '@lib/types/contact';
+import axios from 'axios';
 
 export enum ContactType {
   Pickleball,
@@ -10,7 +11,7 @@ export enum ContactType {
   Tournament,
   TournamentCreate,
   TournamentPartner
-};
+}
 
 export const usePostContact = (contactType: ContactType) => {
   return (body: IContactRequest) => {
@@ -42,5 +43,5 @@ export const usePostContact = (contactType: ContactType) => {
         break;
     }
     return axios.post(apiUrl, { payload: body });
-  }
+  };
 };

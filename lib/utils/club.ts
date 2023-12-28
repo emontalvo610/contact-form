@@ -1,15 +1,15 @@
 export const ClubTypeMap = {
-  "Association": "Association",
-  "Club": "Club",
-  "Company": "Company",
-  "Digital": "Digital",
-  "Facility": "Facility",
-  "Federation": "Federation",
-  "GovernmentDept": "Government Dept.",
-  "NotForProfit": "Not For Profit",
-  "ParkRecreation": "Park & Recreation",
-  "PickleballTour": "Pickleball Tour",
-  "Resort": "Resort"
+  Association: 'Association',
+  Club: 'Club',
+  Company: 'Company',
+  Digital: 'Digital',
+  Facility: 'Facility',
+  Federation: 'Federation',
+  GovernmentDept: 'Government Dept.',
+  NotForProfit: 'Not For Profit',
+  ParkRecreation: 'Park & Recreation',
+  PickleballTour: 'Pickleball Tour',
+  Resort: 'Resort'
 } as const;
 
 export type ClubType = keyof typeof ClubTypeMap;
@@ -22,7 +22,7 @@ export const getClubTypeOptions = (clubTypes: ClubType[]) => {
     options.push({
       value: key,
       label: ClubTypeMap[key]
-    })
+    });
   }
   return options;
 };

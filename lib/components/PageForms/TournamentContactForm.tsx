@@ -1,16 +1,27 @@
 'use client';
 
-import { getContactReasonOptions } from '@lib/utils/reason';
-import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 import { ContactType } from '@lib/hooks/contact';
+import { getContactReasonOptions } from '@lib/utils/reason';
+
+import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
   ip: string;
-};
+}
 
 export default function TournamentConactForm(props: IFormProps) {
-  const contactReasonOptions = getContactReasonOptions(['Registration', 'Referees', 'Refunds', 'RequestPartnerChange', 'Sponsors', 'Vendors', 'Volunteers', 'MyWebsiteAccount', 'Other']);
-  
+  const contactReasonOptions = getContactReasonOptions([
+    'Registration',
+    'Referees',
+    'Refunds',
+    'RequestPartnerChange',
+    'Sponsors',
+    'Vendors',
+    'Volunteers',
+    'MyWebsiteAccount',
+    'Other'
+  ]);
+
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
@@ -19,5 +30,5 @@ export default function TournamentConactForm(props: IFormProps) {
       contactReasonOptions={contactReasonOptions}
       contactType={ContactType.Tournament}
     />
-  )
+  );
 }
