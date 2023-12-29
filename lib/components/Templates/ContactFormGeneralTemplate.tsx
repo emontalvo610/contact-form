@@ -239,7 +239,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
         // } = getValues();
         // Request contact
         // await postContact(getValues());
-        router.push('/request-success');
+        router.push(`/request-success?platform=${props.contactType}`);
       } catch (err) {
         setError('root.server', {
           message: 'Something went wrong. Please try again some time later'
