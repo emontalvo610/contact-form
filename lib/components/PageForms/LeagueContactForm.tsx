@@ -1,6 +1,7 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
+import type { ILeague } from '@lib/types/league';
 import type { IUser } from '@lib/types/user';
 import { getContactReasonOptions } from '@lib/utils/reason';
 
@@ -9,6 +10,7 @@ import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate'
 interface IFormProps {
   ip: string;
   user?: IUser;
+  league: ILeague;
 }
 
 export default function LeagueContactForm(props: IFormProps) {
@@ -19,6 +21,8 @@ export default function LeagueContactForm(props: IFormProps) {
     'MyWebsiteAccount',
     'Other'
   ]);
+
+  console.log('@League: ', props.league);
 
   return (
     <ContactFormGeneralTemplate
