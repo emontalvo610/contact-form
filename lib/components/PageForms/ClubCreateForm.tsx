@@ -4,6 +4,7 @@ import { ContactType } from '@lib/hooks/contact';
 import type { IUser } from '@lib/types/user';
 import { allClubTypes, getClubTypeOptions } from '@lib/utils/club';
 
+import LinkSignup from '../Buttons/LinkSignup';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
@@ -14,21 +15,19 @@ interface IFormProps {
 const HelpAlert = () => {
   return (
     <>
-      In Pickleball Brackets clubs are categorizes as a type of organization.
+      In Pickleball.com clubs are categorizes as a type of organization.
       Organization types can be an Association, Club, Company, Facility,
       Government Department, or Not For Profit.
       <br />
       <br />
       All club managers <span className="font-semibold">MUST</span> have a
-      Pickleball Brackets account. Don't have one?
+      Pickleball.com account. Don't have one?
       <br />
       <br />
-      <a href="https://pickleballbrackets.com/lrfc_l.aspx">
-        Click here to sign up.
-      </a>
+      <LinkSignup />
       <br />
       <br />
-      These are created upon request. Once they're created all tournaments,
+      Clubs are created upon request. Once they're created all tournaments,
       leagues, members, club ratings, and clinics{' '}
       <span className="font-semibold">CAN BE</span> associated through that
       club.

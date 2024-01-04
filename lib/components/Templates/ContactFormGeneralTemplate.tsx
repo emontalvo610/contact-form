@@ -351,7 +351,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
             )}
             {props.shouldIncludeClub && (
               <>
-                <div className="mt-1 text-left">
+                <div className="mt-3 text-left">
                   <InputField
                     label="Club Name"
                     className="input-basic"
@@ -372,7 +372,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                   />
                   <ErrorWrapper>{errors.clubType?.message}</ErrorWrapper>
                 </div>
-                <div className="mt-1 text-left">
+                <div className="mt-3 text-left">
                   <InputField
                     label="Venu Name"
                     className="input-basic"

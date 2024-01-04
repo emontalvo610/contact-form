@@ -3,6 +3,7 @@
 import { ContactType } from '@lib/hooks/contact';
 import type { IUser } from '@lib/types/user';
 
+import LinkSignup from '../Buttons/LinkSignup';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
 interface IFormProps {
@@ -17,13 +18,11 @@ const HelpAlert = () => {
       <br />
       <br />
       All tournament directors and managers{' '}
-      <span className="font-semibold">MUST</span> have a Pickleball Brackets
-      account. Don't have one?
+      <span className="font-semibold">MUST</span> have a Pickleball.com account.
+      Don't have one?
       <br />
       <br />
-      <a href="https://pickleballbrackets.com/lrfc_l.aspx">
-        Click here to sign up.
-      </a>
+      <LinkSignup />
       <br />
       <br />
       Fill out the form below and we will review your request.

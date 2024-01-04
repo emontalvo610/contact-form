@@ -21,9 +21,11 @@ const HelpAlert = () => {
       <span className="font-bold">Contact Club</span>".
       <br />
       <br />
-      This form is for contacting PickleballBrackets.com. We{' '}
-      <strong>CANNOT</strong> answer any questions about a tournament, league,
-      or club you are inquiring about.
+      This form is for contacting Pickleball.com. We <strong>
+        CANNOT
+      </strong>{' '}
+      answer any questions about a tournament, league, or club you are inquiring
+      about.
     </>
   );
 };
