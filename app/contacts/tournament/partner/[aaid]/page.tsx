@@ -1,25 +1,25 @@
 import PickleballContactForm from '@lib/components/PageForms/PickleballContactForm';
-import TournamentConactForm from '@lib/components/PageForms/TournamentContactForm';
-import { getTournament } from '@lib/server/api';
+import TournamentPartnerForm from '@lib/components/PageForms/TournamentPartnerForm';
+import { getAttendee } from '@lib/server/api';
 import { getServerActionUser } from '@lib/server/session/session';
 import { extractIP } from '@lib/utils/location';
 import { headers } from 'next/headers';
 
 interface IPageProps {
-  searchParams: {
-    eid: string;
+  params: {
+    aaid: string;
   };
 }
 
-export default async function TournamentConactFormPage({
-  searchParams
+export default async function TournamentPartnerFormPage({
+  params
 }: IPageProps) {
   const ip = extractIP(headers());
   const user = await getServerActionUser();
-  const tournament = await getTournament(searchParams.eid);
+  const attendee = await getAttendee(params.aaid);
 
-  return tournament ? (
-    <TournamentConactForm ip={ip} user={user} tournament={tournament} />
+  return attendee ? (
+    <TournamentPartnerForm ip={ip} user={user} attendee={attendee} />
   ) : (
     <PickleballContactForm ip={ip} user={user} />
   );

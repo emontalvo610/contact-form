@@ -6,17 +6,15 @@ import { extractIP } from '@lib/utils/location';
 import { headers } from 'next/headers';
 
 interface IPageProps {
-  searchParams: {
+  params: {
     lid: string;
   };
 }
 
-export default async function LeagueContactFormPage({
-  searchParams
-}: IPageProps) {
+export default async function LeagueContactFormPage({ params }: IPageProps) {
   const ip = extractIP(headers());
   const user = await getServerActionUser();
-  const league = await getLeague(searchParams.lid);
+  const league = await getLeague(params.lid);
 
   return league ? (
     <LeagueContactForm ip={ip} user={user} league={league} />

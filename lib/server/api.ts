@@ -1,5 +1,3 @@
-import type { IClub } from '@lib/types/club';
-import type { ILeague } from '@lib/types/league';
 import type { ITournament } from '@lib/types/tournament';
 import type { IUser } from '@lib/types/user';
 
@@ -24,11 +22,20 @@ export const getUser = async (uuid: string) => {
 export const getClub = async (uuid: string) => {
   try {
     if (!uuid) return null;
-    const { status, data } = await apiClient.get(
-      `${Environment.API_URL}/v1/data/clubs/${uuid}`
+    const { status, data } = await apiClient.post(
+      `${Environment.API_URL}/v1/pb_data/json`,
+      JSON.stringify({
+        ClubGUID: uuid
+      }),
+      {
+        params: {
+          sp_name: 'API_v2_Club_GetDetails'
+        }
+      }
     );
-    if (status === 200) {
-      return data as IClub;
+    if (status === 200 && data.payload?.length > 0) {
+      const clubData = data.payload[0];
+      return clubData;
     }
   } catch (err) {
     console.error(`Error: LookupClubByUuid by ${uuid}`, err);
@@ -39,11 +46,20 @@ export const getClub = async (uuid: string) => {
 export const getLeague = async (uuid: string) => {
   try {
     if (!uuid) return null;
-    const { status, data } = await apiClient.get(
-      `${Environment.API_URL}/v1/data/leagues/${uuid}`
+    const { status, data } = await apiClient.post(
+      `${Environment.API_URL}/v1/pb_data/json`,
+      {
+        LeagueID: uuid
+      },
+      {
+        params: {
+          sp_name: 'API_v2_League_GetDetails'
+        }
+      }
     );
-    if (status === 200) {
-      return data as ILeague;
+    if (status === 200 && data.payload?.length > 0) {
+      const leagueData = data.payload[0];
+      return leagueData;
     }
   } catch (err) {
     console.error(`Error: LookupLeagueByUuid by ${uuid}`, err);
