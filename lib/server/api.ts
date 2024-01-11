@@ -84,7 +84,26 @@ export const getTournament = async (uuid: string) => {
   return null;
 };
 
-export const getAttendee = async (uuid: string) => {
-  if (!uuid) console.log('Getting attendee...');
+export const getAttendeeActivity = async (uuid: string) => {
+  try {
+    if (!uuid) return null;
+    const { status, data } = await apiClient.post(
+      `${Environment.API_URL}/v1/pb_data/json`,
+      {
+        AttendeeActivityID: uuid
+      },
+      {
+        params: {
+          sp_name: 'API_v2_Tourney_GetPlayerNeedPartnerName'
+        }
+      }
+    );
+    if (status === 200 && data.payload?.length > 0) {
+      const activityData = data.payload[0];
+      return activityData;
+    }
+  } catch (err) {
+    console.error(`Error: LookupAttendeeActivityByUuid by ${uuid}`, err);
+  }
   return null;
 };

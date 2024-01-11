@@ -35,7 +35,7 @@ import ErrorWrapper from '../Wrappers/ErrorWrapper';
 interface IFormProps {
   ip: string;
   title: string;
-  subtitle: string;
+  subtitle: string | string[];
   alertContent?: ReactNode;
   contactReasonOptions?: Array<ISelectOption>;
   shouldIncludeClub?: boolean;
@@ -260,7 +260,15 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
           {props.title}
         </div>
         <div className="mt-3 text-center text-md font-normal leading-6 text-gray-600">
-          {props.subtitle}
+          {typeof props.subtitle === 'string' ? (
+            <div>{props.subtitle}</div>
+          ) : (
+            <div>
+              {props.subtitle.map((subtitle, index) => (
+                <div key={index}>{subtitle}</div>
+              ))}
+            </div>
+          )}
         </div>
         {props.alertContent && (
           <div className="mt-8">
