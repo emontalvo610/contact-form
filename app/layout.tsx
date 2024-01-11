@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <QueryProvider>
           <GoogleRecaptchaWrapper>
-            <main className="box-border flex min-h-screen items-center justify-between p-6 sm:p-4">
+            <main className="box-border flex min-h-screen items-center justify-between p-6 sm:p-4 sm:pb-16">
               <ToastContainer theme="light" position="bottom-left" />
               {children}
             </main>
