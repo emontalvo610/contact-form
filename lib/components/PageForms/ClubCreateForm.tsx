@@ -15,9 +15,9 @@ interface IFormProps {
 const HelpAlert = () => {
   return (
     <>
-      In Pickleball.com clubs are categorizes as a type of organization.
-      Organization types can be an Association, Club, Company, Facility,
-      Government Department, or Not For Profit.
+      In Pickleball.com clubs are categorizes as a type of organization. An
+      example of organization types are Association, Club, Company, Facility,
+      Government Department, Not For Profit, and so on.
       <br />
       <br />
       All club managers <span className="font-semibold">MUST</span> have a
