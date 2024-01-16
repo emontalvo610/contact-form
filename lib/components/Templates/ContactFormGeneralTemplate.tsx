@@ -1,6 +1,8 @@
 'use client';
 
 import TermsAndPolicy from '@components/Footers/TermsAndPolicy';
+import { faPhone } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { ContactType } from '@lib/hooks/contact';
 // import { usePostContact } from '@lib/hooks/contact';
 import { useGetCountries } from '@lib/hooks/country';
@@ -21,6 +23,7 @@ import {
   venuNameValidatorOptions
 } from '@lib/validators/form-validation';
 import { Button, InputField, Select, TextArea } from '@pickleballinc/react-ui';
+import TelInputField from '@pickleballinc/react-ui/TelInputField';
 import { useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -54,7 +57,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   const [isLoading, setLoading] = useState(false);
   const [location, setLocation] = useState<ILocation | null>(null);
   const [defaultCountryCodeOption, setDefaultCountryCodeOption] =
-    useState<ICountrySelectOption | null>(null);
+    useState<ICountrySelectOption>();
   // const postContact = usePostContact(props.contactType);
 
   const {
@@ -153,7 +156,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       );
     }
     setValue('phoneCountryId', result?.value || '');
-    return result || null;
+    return result;
   };
 
   const onSelectChange = (option: unknown, id: keyof IContactRequest) => {
@@ -304,31 +307,22 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                 <ErrorWrapper>{errors.lastName?.message}</ErrorWrapper>
               </div>
             </div>
-            <div className="mt-3 flex flex-wrap gap-5 text-left sm:gap-2">
-              <div className="min-w-[120px] basis-[140px] sm:basis-[30%]">
-                <div className="input-label">Country</div>
-                <Select
-                  options={getCountryCodesOptions()}
-                  className="select-basic"
-                  instanceId="country-code-select"
-                  placeholder=""
-                  onChange={option => onSelectChange(option, 'phoneCountryId')}
-                  value={
-                    getSelectedCountryCodeOption() || defaultCountryCodeOption
-                  }
-                />
-                <ErrorWrapper>{errors.phoneCountryId?.message}</ErrorWrapper>
-              </div>
-              <div className="max-w-[200px] flex-1">
-                <InputField
-                  label="Phone Number"
-                  maxLength={13}
-                  className="input-basic"
-                  type="number"
-                  {...register('phoneNumber', phoneNumberValidatorOptions)}
-                />
-                <ErrorWrapper>{errors.phoneNumber?.message}</ErrorWrapper>
-              </div>
+            <div className="mt-3 max-w-sm text-left">
+              <TelInputField
+                countryList={getCountryCodesOptions()}
+                placeholder=""
+                countryOnChange={option =>
+                  onSelectChange(option, 'phoneCountryId')
+                }
+                countryValue={
+                  getSelectedCountryCodeOption() || defaultCountryCodeOption
+                }
+                label="Phone Number"
+                defaultCountry={{ label: '', value: '' }}
+                SuffixIcon={() => <FontAwesomeIcon icon={faPhone} />}
+                {...register('phoneNumber', phoneNumberValidatorOptions)}
+              />
+              <ErrorWrapper>{errors.phoneNumber?.message}</ErrorWrapper>
             </div>
             {Number(props.contactReasonOptions?.length) > 0 && (
               <div className="mt-3 text-left">
