@@ -21,7 +21,7 @@
     "@fortawesome/sharp-light-svg-icons": "^6.4.2",
     "@hookform/resolvers": "^3.3.2",
     "@pickleballinc/configs": "^1.2.0",
-    "@pickleballinc/react-ui": "^1.29.1",
+    "@pickleballinc/react-ui": "^1.29.2",
     "@tanstack/react-query": "^5.0.5",
     "axios": "^1.5.1",
     "cookie": "^0.6.0",
