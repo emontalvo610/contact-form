@@ -3,11 +3,11 @@
 import TermsAndPolicy from '@components/Footers/TermsAndPolicy';
 import { faPhone } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { ContactType } from '@lib/hooks/contact';
-// import { usePostContact } from '@lib/hooks/contact';
+import { useGetClubTypes } from '@lib/hooks/club';
+import { type ContactType, usePostContact } from '@lib/hooks/contact';
 import { useGetCountries } from '@lib/hooks/country';
 import { validateRecaptchaToken } from '@lib/server/recaptcha';
-import type { IContactRequest } from '@lib/types/contact';
+import type { IContactAnyRequest } from '@lib/types/contact';
 import type { ILocation } from '@lib/types/location';
 import type { ICountrySelectOption, ISelectOption } from '@lib/types/select';
 import type { IUser } from '@lib/types/user';
@@ -19,8 +19,8 @@ import {
   firstNameValidatorOptions,
   lastNameValidatorOptions,
   phoneNumberValidatorOptions,
-  venuAddressValidatorOptions,
-  venuNameValidatorOptions
+  venueAddressValidatorOptions,
+  venueNameValidatorOptions
 } from '@lib/validators/form-validation';
 import { Button, InputField, Select, TextArea } from '@pickleballinc/react-ui';
 import TelInputField from '@pickleballinc/react-ui/TelInputField';
@@ -42,10 +42,10 @@ interface IFormProps {
   alertContent?: ReactNode;
   contactReasonOptions?: Array<ISelectOption>;
   shouldIncludeClub?: boolean;
-  clubTypeOptions?: Array<ISelectOption>;
   mixDoubleSkillOptions?: Array<ISelectOption>;
   contactType: ContactType;
   user?: IUser;
+  extraPayload?: Record<string, any>;
 }
 
 export default function ContactFormGeneralTemplate(props: IFormProps) {
@@ -53,12 +53,14 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [recaptchaResult, setRecaptchaResult] = useState(true);
   const { data: countriesData } = useGetCountries();
+  const { data: clubTypesData } = useGetClubTypes();
+
   const isSubmitted = useRef<boolean>(false);
   const [isLoading, setLoading] = useState(false);
   const [location, setLocation] = useState<ILocation | null>(null);
   const [defaultCountryCodeOption, setDefaultCountryCodeOption] =
     useState<ICountrySelectOption>();
-  // const postContact = usePostContact(props.contactType);
+  const postContact = usePostContact(props.contactType);
 
   const {
     register,
@@ -70,12 +72,12 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
     clearErrors,
     handleSubmit,
     formState: { errors }
-  } = useForm<IContactRequest>({
+  } = useForm<IContactAnyRequest>({
     defaultValues: {
       email: props.user?.email || '',
       firstName: props.user?.firstName || '',
       lastName: props.user?.lastName || '',
-      phoneNumber: props.user?.phone
+      phone: props.user?.phone
     }
   });
 
@@ -104,9 +106,19 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       });
   };
 
+  const getClubTypesOptions = () => {
+    return clubTypesData.results
+      .filter(clubType => clubType.isEnabled)
+      .map(clubType => {
+        return {
+          value: clubType.id,
+          label: clubType.title
+        } as ISelectOption;
+      });
+  };
+
   const checkManualValidation = () => {
-    const { phoneCountryId, contactReason, clubType, mixDoubleSkill } =
-      getValues();
+    const { phoneCountryId, contactReason, clubType, skill } = getValues();
     let valid = true;
     if (phoneCountryId) {
       clearErrors('phoneCountryId');
@@ -131,10 +143,10 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       }
     }
     if (Number(props.mixDoubleSkillOptions?.length) > 0) {
-      if (mixDoubleSkill) {
-        clearErrors('mixDoubleSkill');
+      if (skill) {
+        clearErrors('skill');
       } else {
-        setError('mixDoubleSkill', { message: 'Mix Double Skill is required' });
+        setError('skill', { message: 'Mix Double Skill is required' });
         valid = false;
       }
     }
@@ -159,7 +171,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
     return result;
   };
 
-  const onSelectChange = (option: unknown, id: keyof IContactRequest) => {
+  const onSelectChange = (option: unknown, id: keyof IContactAnyRequest) => {
     const { value } = option as ISelectOption;
     setValue(id, value);
     if (isSubmitted.current) checkManualValidation();
@@ -183,15 +195,16 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   };
 
   const getSelectedClubTypeOption = () => {
+    const clubTypeOptions = getClubTypesOptions();
     const clubType = watch('clubType');
-    const selectedClubTypeOption = props.clubTypeOptions?.find(
+    const selectedClubTypeOption = clubTypeOptions?.find(
       option => option.value === clubType
     );
     return selectedClubTypeOption;
   };
 
   const getSelectedMixDoubleSkillOption = () => {
-    const mixDoubleSkill = watch('mixDoubleSkill');
+    const mixDoubleSkill = watch('skill');
     const selectedMixDoubleSkillOption = props.mixDoubleSkillOptions?.find(
       option => option.value === mixDoubleSkill
     );
@@ -226,22 +239,8 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
 
     if (isHuman) {
       try {
-        // const {
-        //   firstName,
-        //   lastName,
-        //   email,
-        //   phoneNumber,
-        //   phoneCountryId,
-        //   contactReason,
-        //   description,
-        //   clubName,
-        //   clubType,
-        //   venuName,
-        //   venuAddress,
-        //   mixDoubleSkill
-        // } = getValues();
-        // Request contact
-        // await postContact(getValues());
+        const body = { ...getValues(), ...(props.extraPayload || {}) };
+        await postContact(body);
         router.push(`/request-success?platform=${props.contactType}`);
       } catch (err) {
         setError('root.server', {
@@ -319,9 +318,9 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                 }
                 label="Phone Number"
                 SuffixIcon={() => <FontAwesomeIcon icon={faPhone} />}
-                {...register('phoneNumber', phoneNumberValidatorOptions)}
+                {...register('phone', phoneNumberValidatorOptions)}
               />
-              <ErrorWrapper>{errors.phoneNumber?.message}</ErrorWrapper>
+              <ErrorWrapper>{errors.phone?.message}</ErrorWrapper>
             </div>
             {Number(props.contactReasonOptions?.length) > 0 && (
               <div className="mt-3 text-left">
@@ -346,9 +345,9 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                   placeholder="Select a Type"
                   options={props.mixDoubleSkillOptions}
                   value={getSelectedMixDoubleSkillOption()}
-                  onChange={option => onSelectChange(option, 'mixDoubleSkill')}
+                  onChange={option => onSelectChange(option, 'skill')}
                 />
-                <ErrorWrapper>{errors.mixDoubleSkill?.message}</ErrorWrapper>
+                <ErrorWrapper>{errors.skill?.message}</ErrorWrapper>
               </div>
             )}
             {props.shouldIncludeClub && (
@@ -368,7 +367,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                     className="select-basic"
                     instanceId="clubtype-select"
                     placeholder="Select a Type"
-                    options={props.clubTypeOptions}
+                    options={getClubTypesOptions()}
                     value={getSelectedClubTypeOption()}
                     onChange={option => onSelectChange(option, 'clubType')}
                   />
@@ -376,20 +375,20 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                 </div>
                 <div className="mt-3 text-left">
                   <InputField
-                    label="Venu Name"
+                    label="Venue Name"
                     className="input-basic"
                     autoFocus
-                    {...register('venuName', venuNameValidatorOptions)}
+                    {...register('venueName', venueNameValidatorOptions)}
                   />
-                  <ErrorWrapper>{errors.venuName?.message}</ErrorWrapper>
+                  <ErrorWrapper>{errors.venueName?.message}</ErrorWrapper>
                 </div>
                 <div className="mt-3 text-left">
-                  <div className="input-label">Venu Address</div>
+                  <div className="input-label">Venue Address</div>
                   <TextArea
                     className="textarea-basic resize-y"
-                    {...register('venuAddress', venuAddressValidatorOptions)}
+                    {...register('venueAddress', venueAddressValidatorOptions)}
                   />
-                  <ErrorWrapper>{errors.venuAddress?.message}</ErrorWrapper>
+                  <ErrorWrapper>{errors.venueAddress?.message}</ErrorWrapper>
                 </div>
               </>
             )}

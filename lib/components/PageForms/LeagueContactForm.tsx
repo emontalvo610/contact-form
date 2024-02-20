@@ -1,6 +1,7 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
+import { ContactModule } from '@lib/types/contact';
 import type { ILeague } from '@lib/types/league';
 import type { IUser } from '@lib/types/user';
 import { getContactReasonOptions } from '@lib/utils/reason';
@@ -15,23 +16,27 @@ interface IFormProps {
 
 export default function LeagueContactForm(props: IFormProps) {
   const contactReasonOptions = getContactReasonOptions([
-    'Registration',
-    'Refunds',
-    'Sponsors',
-    'MyWebsiteAccount',
-    'Other'
+    'REGISTRATION_CONTACT_FORM_REASON',
+    'REFUNDS_CONTACT_FORM_REASON',
+    'SPONSOR_CONTACT_FORM_REASON',
+    'MY_WEBSITE_ACCOUNT_CONTACT_FORM_REASON',
+    'OTHER_CONTACT_FORM_REASON'
   ]);
 
-  console.log('@League: ', props.league);
+  const extraPayload = {
+    moduleFor: ContactModule.LEAGUE_SYSTEM_MODULE_TYPE,
+    moduleUuid: props.league.leagueId
+  };
 
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
       user={props.user}
-      title="4.0+ Mens Doubles"
+      title={props.league.clubTitle}
       subtitle="Complete the form below and we'll get back to you."
       contactReasonOptions={contactReasonOptions}
       contactType={ContactType.League}
+      extraPayload={extraPayload}
     />
   );
 }

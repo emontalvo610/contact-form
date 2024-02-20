@@ -1,13 +1,13 @@
 export const ContactReasonMap = {
-  Registration: 'Registration',
-  MyWebsiteAccount: 'My Website Account',
-  Other: 'Other',
-  Referees: 'Referees',
-  Refunds: 'Refunds',
-  RequestPartnerChange: 'Request Partner Change',
-  Sponsors: 'Sponsors',
-  Vendors: 'Vendors',
-  Volunteers: 'Volunteers'
+  REGISTRATION_CONTACT_FORM_REASON: 'Registration',
+  MY_WEBSITE_ACCOUNT_CONTACT_FORM_REASON: 'My Website Account',
+  OTHER_CONTACT_FORM_REASON: 'Other',
+  REFEREE_CONTACT_FORM_REASON: 'Referees',
+  REFUNDS_CONTACT_FORM_REASON: 'Refunds',
+  REQUEST_PARTNER_CHANGE_CONTACT_FORM_REASON: 'Request Partner Change',
+  SPONSOR_CONTACT_FORM_REASON: 'Sponsors',
+  VENDOR_CONTACT_FORM_REASON: 'Vendors',
+  VOLUNTEER_CONTACT_FORM_REASON: 'Volunteers'
 } as const;
 
 export type ContactReasonType = keyof typeof ContactReasonMap;

@@ -1,6 +1,7 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
+import { ContactModule } from '@lib/types/contact';
 import type { IUser } from '@lib/types/user';
 import { getContactReasonOptions } from '@lib/utils/reason';
 
@@ -32,10 +33,14 @@ const HelpAlert = () => {
 
 export default function PickleballContactForm(props: IFormProps) {
   const contactReasonOptions = getContactReasonOptions([
-    'Registration',
-    'MyWebsiteAccount',
-    'Other'
+    'REGISTRATION_CONTACT_FORM_REASON',
+    'MY_WEBSITE_ACCOUNT_CONTACT_FORM_REASON',
+    'OTHER_CONTACT_FORM_REASON'
   ]);
+  const extraPayload = {
+    moduleFor: ContactModule.GLOBAL_SYSTEM_MODULE_TYPE,
+    moduleUuid: '622dc379-f3ae-4eae-b993-e02948ae20ca' // random UUID v4
+  };
 
   return (
     <ContactFormGeneralTemplate
@@ -46,6 +51,7 @@ export default function PickleballContactForm(props: IFormProps) {
       subtitle="Complete the form below and we'll get back to you."
       contactReasonOptions={contactReasonOptions}
       contactType={ContactType.Pickleball}
+      extraPayload={extraPayload}
     />
   );
 }

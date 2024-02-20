@@ -1,6 +1,10 @@
 /* eslint-disable default-case */
-import type { IContactRequest } from '@lib/types/contact';
-import axios from 'axios';
+import {
+  requestContact,
+  requestContactCreate,
+  requestContactPartner
+} from '@lib/server/form';
+import { type IContactAnyRequest } from '@lib/types/contact';
 
 export enum ContactType {
   Pickleball,
@@ -46,34 +50,26 @@ export const getPlatformInfo = (contactType: ContactType) => {
 };
 
 export const usePostContact = (contactType: ContactType) => {
-  return (body: IContactRequest) => {
-    let apiUrl;
+  return (params: IContactAnyRequest) => {
+    const body: IContactAnyRequest = { ...params };
     switch (contactType) {
       case ContactType.Pickleball:
-        apiUrl = '/api/proxy/v1/pub/contacts';
-        break;
+        return requestContact(body);
       case ContactType.Club:
-        apiUrl = '/api/proxy/v1/pub/contacts';
-        break;
+        return requestContact(body);
       case ContactType.ClubCreate:
-        apiUrl = '/api/proxy/v1/pub/contacts';
-        break;
+        return requestContactCreate(body);
       case ContactType.League:
-        apiUrl = '/api/proxy/v1/pub/contacts';
-        break;
+        return requestContact(body);
       case ContactType.LeagueCreate:
-        apiUrl = '/api/proxy/v1/pub/contacts';
-        break;
+        return requestContactCreate(body);
       case ContactType.Tournament:
-        apiUrl = '/api/proxy/v1/pub/contacts';
-        break;
+        return requestContact(body);
       case ContactType.TournamentCreate:
-        apiUrl = '/api/proxy/v1/pub/contacts';
-        break;
+        return requestContactCreate(body);
       case ContactType.TournamentPartner:
-        apiUrl = '/api/proxy/v1/pub/contacts';
-        break;
+        return requestContactPartner(body);
     }
-    return axios.post(apiUrl, { payload: body });
+    return requestContact(body);
   };
 };

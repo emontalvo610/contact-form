@@ -14,6 +14,10 @@ interface IFormProps {
 }
 export default function TournamentPartnerForm(props: IFormProps) {
   const mixDoubleSkillOptions = getAllMixDoubleSkillOptions();
+  const extraPayload = {
+    eventUuid: props.attendeeActivity.AttendeeActivityID,
+    userUuid: props.attendeeActivity.UserID
+  };
 
   return (
     <ContactFormGeneralTemplate
@@ -27,6 +31,7 @@ export default function TournamentPartnerForm(props: IFormProps) {
       ]}
       mixDoubleSkillOptions={mixDoubleSkillOptions}
       contactType={ContactType.TournamentPartner}
+      extraPayload={extraPayload}
     />
   );
 }

@@ -1,8 +1,8 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
+import { ContactModule } from '@lib/types/contact';
 import type { IUser } from '@lib/types/user';
-import { allClubTypes, getClubTypeOptions } from '@lib/utils/club';
 
 import LinkSignup from '../Buttons/LinkSignup';
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
@@ -41,7 +41,10 @@ const HelpAlert = () => {
 };
 
 export default function ClubCreateForm(props: IFormProps) {
-  const clubTypeOptions = getClubTypeOptions(allClubTypes);
+  const extraPayload = {
+    moduleFor: ContactModule.CLUB_SYSTEM_MODULE_TYPE
+  };
+
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
@@ -50,8 +53,8 @@ export default function ClubCreateForm(props: IFormProps) {
       title="New Club"
       subtitle="Complete the form below."
       shouldIncludeClub
-      clubTypeOptions={clubTypeOptions}
       contactType={ContactType.ClubCreate}
+      extraPayload={extraPayload}
     />
   );
 }

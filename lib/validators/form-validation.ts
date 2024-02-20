@@ -40,20 +40,22 @@ export const clubNameValidatorOptions: RegisterOptions<any, 'clubName'> = {
   }
 };
 
-export const venuNameValidatorOptions: RegisterOptions<any, 'venuName'> = {
+export const venueNameValidatorOptions: RegisterOptions<any, 'venueName'> = {
   required: {
     value: true,
-    message: 'Venu name is required'
+    message: 'Venue name is required'
   }
 };
 
-export const venuAddressValidatorOptions: RegisterOptions<any, 'venuAddress'> =
-  {
-    required: {
-      value: true,
-      message: 'Venu address is required'
-    }
-  };
+export const venueAddressValidatorOptions: RegisterOptions<
+  any,
+  'venueAddress'
+> = {
+  required: {
+    value: true,
+    message: 'Venue address is required'
+  }
+};
 
 export const phoneNumberValidatorOptions: RegisterOptions<any, 'phoneNumber'> =
   {

@@ -2,6 +2,7 @@
 
 import { ContactType } from '@lib/hooks/contact';
 import type { IClub } from '@lib/types/club';
+import { ContactModule } from '@lib/types/contact';
 import type { IUser } from '@lib/types/user';
 import { getContactReasonOptions } from '@lib/utils/reason';
 
@@ -15,23 +16,27 @@ interface IFormProps {
 
 export default function ClubContactForm(props: IFormProps) {
   const contactReasonOptions = getContactReasonOptions([
-    'Registration',
-    'Refunds',
-    'Sponsors',
-    'MyWebsiteAccount',
-    'Other'
+    'REGISTRATION_CONTACT_FORM_REASON',
+    'REFUNDS_CONTACT_FORM_REASON',
+    'SPONSOR_CONTACT_FORM_REASON',
+    'MY_WEBSITE_ACCOUNT_CONTACT_FORM_REASON',
+    'OTHER_CONTACT_FORM_REASON'
   ]);
 
-  console.log('@Club: ', props.club);
+  const extraPayload = {
+    moduleFor: ContactModule.CLUB_SYSTEM_MODULE_TYPE,
+    moduleUuid: props.club.uuid
+  };
 
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
       user={props.user}
-      title="- Southern Pickleball Association"
+      title={props.club.title}
       subtitle="Complete the form below and we'll get back to you."
       contactReasonOptions={contactReasonOptions}
       contactType={ContactType.Club}
+      extraPayload={extraPayload}
     />
   );
 }

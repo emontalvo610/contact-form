@@ -1,6 +1,7 @@
 'use client';
 
 import { ContactType } from '@lib/hooks/contact';
+import { ContactModule } from '@lib/types/contact';
 import type { IUser } from '@lib/types/user';
 
 import LinkSignup from '../Buttons/LinkSignup';
@@ -33,6 +34,9 @@ const HelpAlert = () => {
 };
 
 export default function LeagueCreateForm(props: IFormProps) {
+  const extraPayload = {
+    moduleFor: ContactModule.CLUB_SYSTEM_MODULE_TYPE
+  };
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
@@ -41,6 +45,7 @@ export default function LeagueCreateForm(props: IFormProps) {
       title="New League"
       subtitle="Complete the form below."
       contactType={ContactType.LeagueCreate}
+      extraPayload={extraPayload}
     />
   );
 }
