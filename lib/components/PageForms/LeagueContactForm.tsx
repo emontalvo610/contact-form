@@ -25,14 +25,14 @@ export default function LeagueContactForm(props: IFormProps) {
 
   const extraPayload = {
     moduleFor: ContactModule.LEAGUE_SYSTEM_MODULE_TYPE,
-    moduleUuid: props.league.leagueId
+    moduleUuid: props.league.LeagueID
   };
 
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
       user={props.user}
-      title={props.league.clubTitle}
+      title={props.league.ClubTitle}
       subtitle="Complete the form below and we'll get back to you."
       contactReasonOptions={contactReasonOptions}
       contactType={ContactType.League}

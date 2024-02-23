@@ -1,9 +1,9 @@
-import type { ClubType } from '@lib/types/club';
+import type { OrganizationType } from '@lib/types/organization';
 import axios from 'axios';
 
-export const getClubTypes = async () => {
-  const response = await axios.get<{ results: ClubType[] }>(
-    '/api/proxy/v1/data/lookup_club_types'
-  );
-  return response.data;
+export const getOrganizationTypes = async () => {
+  const response = await axios.get<{
+    results: { organization_types: OrganizationType[] };
+  }>('/api/proxy/v2/data/organization_types?show_inactive=false');
+  return response.data.results.organization_types;
 };

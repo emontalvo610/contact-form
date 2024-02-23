@@ -1,6 +1,5 @@
 export interface ILeague {
-  leagueId: string;
-  clubId: string;
-  clubTitle: string;
-  clubLogo: string;
+  LeagueID: string;
+  ClubID: string;
+  ClubTitle: string;
 }

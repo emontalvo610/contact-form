@@ -1,10 +1,10 @@
-import { getClubTypes } from '@lib/utils/club';
+import { getOrganizationTypes } from '@lib/utils/club';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetClubTypes = () => {
+export const useGetOrganizationTypes = () => {
   return useQuery({
-    queryKey: ['club_types_lookup_data'],
-    queryFn: getClubTypes,
-    initialData: { results: [] }
+    queryKey: ['organization_types_lookup_data'],
+    queryFn: getOrganizationTypes,
+    initialData: []
   });
 };

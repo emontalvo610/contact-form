@@ -1,13 +1,7 @@
 export interface IClub {
-  uuid: string;
-  title: string;
-  abbreviation: string;
-  clubTypeId: string;
-  countryId: string;
-}
-
-export interface ClubType {
-  id: string;
-  title: string;
-  isEnabled: boolean;
+  Title: string;
+  Abbreviation: string;
+  ClubTypeID: string;
+  CountryID: string;
+  ClubGUID: string;
 }

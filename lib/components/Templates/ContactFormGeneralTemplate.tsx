@@ -3,7 +3,7 @@
 import TermsAndPolicy from '@components/Footers/TermsAndPolicy';
 import { faPhone } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetClubTypes } from '@lib/hooks/club';
+import { useGetOrganizationTypes } from '@lib/hooks/club';
 import { type ContactType, usePostContact } from '@lib/hooks/contact';
 import { useGetCountries } from '@lib/hooks/country';
 import { validateRecaptchaToken } from '@lib/server/recaptcha';
@@ -53,7 +53,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [recaptchaResult, setRecaptchaResult] = useState(true);
   const { data: countriesData } = useGetCountries();
-  const { data: clubTypesData } = useGetClubTypes();
+  const { data: organizationTypesData } = useGetOrganizationTypes();
 
   const isSubmitted = useRef<boolean>(false);
   const [isLoading, setLoading] = useState(false);
@@ -77,7 +77,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       email: props.user?.email || '',
       firstName: props.user?.firstName || '',
       lastName: props.user?.lastName || '',
-      phone: props.user?.phone
+      phone: props.user?.phone.replace(/\D/g, '')
     }
   });
 
@@ -107,8 +107,8 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   };
 
   const getClubTypesOptions = () => {
-    return clubTypesData.results
-      .filter(clubType => clubType.isEnabled)
+    return organizationTypesData
+      .filter(clubType => clubType.is_enabled)
       .map(clubType => {
         return {
           value: clubType.id,

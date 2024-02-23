@@ -23,7 +23,7 @@ export default function ThankYouForm(props: IFormProps) {
       </div>
       <div className="box-border flex w-[450px] flex-col items-center rounded-[12px] bg-white text-center sm:h-full sm:w-full sm:max-w-[420px] sm:pb-4">
         <div className="text-[30px] font-semibold leading-9 sm:text-[20px]">
-          Thank you for <strong>Contacting {platformInfo.name}!</strong>
+          Thank you for <strong>Contacting Us!</strong>
         </div>
         <div className="spacing mt-3 text-center text-[20px] font-normal leading-8 text-gray-600 sm:text-md">
           Your request has been submitted. Someone will get back to you. In the

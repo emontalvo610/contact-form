@@ -25,14 +25,14 @@ export default function ClubContactForm(props: IFormProps) {
 
   const extraPayload = {
     moduleFor: ContactModule.CLUB_SYSTEM_MODULE_TYPE,
-    moduleUuid: props.club.uuid
+    moduleUuid: props.club.ClubGUID
   };
 
   return (
     <ContactFormGeneralTemplate
       ip={props.ip}
       user={props.user}
-      title={props.club.title}
+      title={props.club.Title}
       subtitle="Complete the form below and we'll get back to you."
       contactReasonOptions={contactReasonOptions}
       contactType={ContactType.Club}
