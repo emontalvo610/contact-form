@@ -24,8 +24,8 @@ export interface IContactRequest extends IContactBase {
 
 export interface IContactCreateRequest extends IContactBase {
   moduleFor: ContactModule;
-  clubName?: string;
-  clubType?: string;
+  organizationName?: string;
+  organizationType?: string;
   venueName?: string;
   venueAddress?: string;
 }

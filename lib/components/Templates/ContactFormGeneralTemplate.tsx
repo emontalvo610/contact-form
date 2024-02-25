@@ -13,11 +13,11 @@ import type { ICountrySelectOption, ISelectOption } from '@lib/types/select';
 import type { IUser } from '@lib/types/user';
 import { getLocationFromIP } from '@lib/utils/location';
 import {
-  clubNameValidatorOptions,
   descriptionValidatorOptions,
   emailValidatorOptions,
   firstNameValidatorOptions,
   lastNameValidatorOptions,
+  organizationNameValidatorOptions,
   phoneNumberValidatorOptions,
   venueAddressValidatorOptions,
   venueNameValidatorOptions
@@ -106,19 +106,20 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       });
   };
 
-  const getClubTypesOptions = () => {
+  const getOrganizationTypesOptions = () => {
     return organizationTypesData
-      .filter(clubType => clubType.is_enabled)
-      .map(clubType => {
+      .filter(organizationType => organizationType.is_enabled)
+      .map(organizationType => {
         return {
-          value: clubType.id,
-          label: clubType.title
+          value: organizationType.id,
+          label: organizationType.title
         } as ISelectOption;
       });
   };
 
   const checkManualValidation = () => {
-    const { phoneCountryId, contactReason, clubType, skill } = getValues();
+    const { phoneCountryId, contactReason, organizationType, skill } =
+      getValues();
     let valid = true;
     if (phoneCountryId) {
       clearErrors('phoneCountryId');
@@ -135,10 +136,10 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       }
     }
     if (props.shouldIncludeClub) {
-      if (clubType) {
-        clearErrors('clubType');
+      if (organizationType) {
+        clearErrors('organizationType');
       } else {
-        setError('clubType', { message: 'Club type is required' });
+        setError('organizationType', { message: 'Club type is required' });
         valid = false;
       }
     }
@@ -194,13 +195,13 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
     return selectedReasonOption;
   };
 
-  const getSelectedClubTypeOption = () => {
-    const clubTypeOptions = getClubTypesOptions();
-    const clubType = watch('clubType');
-    const selectedClubTypeOption = clubTypeOptions?.find(
-      option => option.value === clubType
+  const getSelectedOrganizationTypeOption = () => {
+    const organizationTypeOptions = getOrganizationTypesOptions();
+    const organizationType = watch('organizationType');
+    const selectedOrganizationTypeOption = organizationTypeOptions?.find(
+      option => option.value === organizationType
     );
-    return selectedClubTypeOption;
+    return selectedOrganizationTypeOption;
   };
 
   const getSelectedMixDoubleSkillOption = () => {
@@ -357,9 +358,14 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                     label="Club Name"
                     className="input-basic"
                     autoFocus
-                    {...register('clubName', clubNameValidatorOptions)}
+                    {...register(
+                      'organizationName',
+                      organizationNameValidatorOptions
+                    )}
                   />
-                  <ErrorWrapper>{errors.clubName?.message}</ErrorWrapper>
+                  <ErrorWrapper>
+                    {errors.organizationName?.message}
+                  </ErrorWrapper>
                 </div>
                 <div className="mt-3 text-left">
                   <div className="input-label">Club Type</div>
@@ -367,11 +373,15 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                     className="select-basic"
                     instanceId="clubtype-select"
                     placeholder="Select a Type"
-                    options={getClubTypesOptions()}
-                    value={getSelectedClubTypeOption()}
-                    onChange={option => onSelectChange(option, 'clubType')}
+                    options={getOrganizationTypesOptions()}
+                    value={getSelectedOrganizationTypeOption()}
+                    onChange={option =>
+                      onSelectChange(option, 'organizationType')
+                    }
                   />
-                  <ErrorWrapper>{errors.clubType?.message}</ErrorWrapper>
+                  <ErrorWrapper>
+                    {errors.organizationType?.message}
+                  </ErrorWrapper>
                 </div>
                 <div className="mt-3 text-left">
                   <InputField

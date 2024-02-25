@@ -33,7 +33,10 @@ export const descriptionValidatorOptions: RegisterOptions<any, 'description'> =
     }
   };
 
-export const clubNameValidatorOptions: RegisterOptions<any, 'clubName'> = {
+export const organizationNameValidatorOptions: RegisterOptions<
+  any,
+  'organizationName'
+> = {
   required: {
     value: true,
     message: 'Club name is required'

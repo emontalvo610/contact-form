@@ -1,7 +1,7 @@
 export interface IClub {
   Title: string;
   Abbreviation: string;
-  ClubTypeID: string;
+  OrganizationTypeID: string;
   CountryID: string;
   ClubGUID: string;
 }

@@ -35,7 +35,7 @@ const HelpAlert = () => {
 
 export default function LeagueCreateForm(props: IFormProps) {
   const extraPayload = {
-    moduleFor: ContactModule.CLUB_SYSTEM_MODULE_TYPE
+    moduleFor: ContactModule.LEAGUE_SYSTEM_MODULE_TYPE
   };
   return (
     <ContactFormGeneralTemplate
