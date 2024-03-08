@@ -15,7 +15,7 @@ interface IFormProps {
 export default function TournamentPartnerForm(props: IFormProps) {
   const mixDoubleSkillOptions = getAllMixDoubleSkillOptions();
   const extraPayload = {
-    eventUuid: props.attendeeActivity.AttendeeActivityID,
+    eventUuid: props.attendeeActivity.ActivityID,
     userUuid: props.attendeeActivity.UserID
   };
 
