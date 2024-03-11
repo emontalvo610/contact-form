@@ -16,8 +16,6 @@ export default async function ClubContactFormPage({ params }: IPageProps) {
   const user = await getServerActionUser();
   const club = await getClub(params.cid);
 
-  console.log({ club });
-
   return club ? (
     <ClubContactForm ip={ip} user={user} club={club} />
   ) : (

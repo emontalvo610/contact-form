@@ -17,7 +17,6 @@ export default async function TournamentPartnerFormPage({
   const ip = extractIP(headers());
   const user = await getServerActionUser();
   const attendeeActivity = await getAttendeeActivity(params.aaid);
-  console.log({ attendeeActivity });
 
   return attendeeActivity ? (
     <TournamentPartnerForm
