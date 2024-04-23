@@ -4,6 +4,7 @@ import { ContactType } from '@lib/hooks/contact';
 import { ContactModule } from '@lib/types/contact';
 import type { IUser } from '@lib/types/user';
 import { getContactReasonOptions } from '@lib/utils/reason';
+import { useSearchParams } from 'next/navigation';
 
 import ContactFormGeneralTemplate from '../Templates/ContactFormGeneralTemplate';
 
@@ -13,6 +14,8 @@ interface IFormProps {
 }
 
 const HelpAlert = () => {
+  const searchParams = useSearchParams();
+  const moduleName = searchParams?.get('module') ?? 'default';
   return (
     <>
       If you need to contact the tournament, league, or club you must go to
@@ -22,11 +25,12 @@ const HelpAlert = () => {
       <span className="font-bold">Contact Club</span>".
       <br />
       <br />
-      This form is for contacting Pickleball.com. We <strong>
-        CANNOT
-      </strong>{' '}
-      answer any questions about a tournament, league, or club you are inquiring
-      about.
+      This form is for contacting{' '}
+      {moduleName === 'tourney'
+        ? 'Pickleballtournaments.com'
+        : 'Pickleball.com'}
+      . We <strong>CANNOT</strong> answer any questions about a tournament,
+      league, or club you are inquiring about.
     </>
   );
 };
