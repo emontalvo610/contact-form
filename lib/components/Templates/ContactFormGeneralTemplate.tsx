@@ -45,6 +45,7 @@ interface IFormProps {
   mixDoubleSkillOptions?: Array<ISelectOption>;
   contactType: ContactType;
   user?: IUser;
+  platform?: string;
   extraPayload?: Record<string, any>;
 }
 
@@ -60,7 +61,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
   const [location, setLocation] = useState<ILocation | null>(null);
   const [defaultCountryCodeOption, setDefaultCountryCodeOption] =
     useState<ICountrySelectOption>();
-  const postContact = usePostContact(props.contactType);
+  const postContact = usePostContact(props.contactType, props.platform);
 
   const {
     register,

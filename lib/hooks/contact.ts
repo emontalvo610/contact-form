@@ -49,27 +49,28 @@ export const getPlatformInfo = (contactType: ContactType) => {
   return result;
 };
 
-export const usePostContact = (contactType: ContactType) => {
+export const usePostContact = (contactType: ContactType, platform?: string) => {
   return (params: IContactAnyRequest) => {
     const body: IContactAnyRequest = { ...params };
+    if (!platform) platform = 'pickleball.com';
     switch (contactType) {
       case ContactType.Pickleball:
-        return requestContact(body);
+        return requestContact(body, platform);
       case ContactType.Club:
-        return requestContact(body);
+        return requestContact(body, platform);
       case ContactType.ClubCreate:
         return requestContactCreate(body);
       case ContactType.League:
-        return requestContact(body);
+        return requestContact(body, platform);
       case ContactType.LeagueCreate:
         return requestContactCreate(body);
       case ContactType.Tournament:
-        return requestContact(body);
+        return requestContact(body, platform);
       case ContactType.TournamentCreate:
         return requestContactCreate(body);
       case ContactType.TournamentPartner:
         return requestContactPartner(body);
     }
-    return requestContact(body);
+    return requestContact(body, platform);
   };
 };

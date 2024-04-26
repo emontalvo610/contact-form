@@ -5,8 +5,8 @@ import type {
 } from '@lib/types/contact';
 import axios from 'axios';
 
-export const requestContact = (body: IContactRequest) => {
-  const apiUrl = '/api/proxy/v2/contact_forms';
+export const requestContact = (body: IContactRequest, platform: string) => {
+  const apiUrl = `/api/proxy/v2/contact_forms?platform=${platform}`;
   return axios.post(apiUrl, body);
 };
 

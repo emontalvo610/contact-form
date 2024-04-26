@@ -36,6 +36,10 @@ const HelpAlert = () => {
 };
 
 export default function PickleballContactForm(props: IFormProps) {
+  const searchParams = useSearchParams();
+  const moduleName = searchParams?.get('module') ?? 'default';
+  const platform =
+    moduleName === 'tourney' ? 'pickleballtournaments.com' : 'pickleball.com';
   const contactReasonOptions = getContactReasonOptions([
     'REGISTRATION_CONTACT_FORM_REASON',
     'MY_WEBSITE_ACCOUNT_CONTACT_FORM_REASON',
@@ -52,6 +56,7 @@ export default function PickleballContactForm(props: IFormProps) {
       user={props.user}
       alertContent={<HelpAlert />}
       title="Contact us"
+      platform={platform}
       subtitle="Complete the form below and we'll get back to you."
       contactReasonOptions={contactReasonOptions}
       contactType={ContactType.Pickleball}
