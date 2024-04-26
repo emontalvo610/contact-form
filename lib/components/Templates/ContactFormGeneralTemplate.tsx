@@ -1,8 +1,6 @@
 'use client';
 
 import TermsAndPolicy from '@components/Footers/TermsAndPolicy';
-import { faPhone } from '@fortawesome/pro-light-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetOrganizationTypes } from '@lib/hooks/club';
 import { type ContactType, usePostContact } from '@lib/hooks/contact';
 import { useGetCountries } from '@lib/hooks/country';
@@ -319,7 +317,6 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                   getSelectedCountryCodeOption() || defaultCountryCodeOption
                 }
                 label="Phone Number"
-                SuffixIcon={() => <FontAwesomeIcon icon={faPhone} />}
                 {...register('phone', phoneNumberValidatorOptions)}
               />
               <ErrorWrapper>{errors.phone?.message}</ErrorWrapper>
