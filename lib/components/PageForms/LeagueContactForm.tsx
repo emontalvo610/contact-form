@@ -18,7 +18,6 @@ export default function LeagueContactForm(props: IFormProps) {
   const contactReasonOptions = getContactReasonOptions([
     'REGISTRATION_CONTACT_FORM_REASON',
     'REFUNDS_CONTACT_FORM_REASON',
-    'SPONSOR_CONTACT_FORM_REASON',
     'MY_WEBSITE_ACCOUNT_CONTACT_FORM_REASON',
     'OTHER_CONTACT_FORM_REASON'
   ]);
