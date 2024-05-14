@@ -65,7 +65,19 @@ export const usePostContact = (contactType: ContactType, platform?: string) => {
       case ContactType.LeagueCreate:
         return requestContactCreate(body);
       case ContactType.Tournament:
+        if (
+          body.contactReason === 'REQUEST_PARTNER_CHANGE_CONTACT_FORM_REASON'
+        ) {
+          const newBody = {
+            ...body,
+            contactReason: undefined,
+            moduleFor: undefined,
+            moduleUuid: undefined
+          };
+          return requestContactPartner(newBody);
+        }
         return requestContact(body, platform);
+
       case ContactType.TournamentCreate:
         return requestContactCreate(body);
       case ContactType.TournamentPartner:
