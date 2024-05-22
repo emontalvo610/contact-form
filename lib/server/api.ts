@@ -107,3 +107,34 @@ export const getAttendeeActivity = async (uuid: string) => {
   }
   return null;
 };
+
+export const getTourneyEventsGrouped = async (
+  eventId: string,
+  activityId: string
+) => {
+  try {
+    if (!eventId) return null;
+    const { status, data } = await apiClient.post(
+      `${Environment.API_URL}/v1/pb_data/json`,
+      {
+        EventID: eventId,
+        ActivityID: activityId
+      },
+      {
+        params: {
+          sp_name: 'API_v2_Tourney_GetEventsGrouped'
+        }
+      }
+    );
+    if (status === 200 && data.payload?.length > 0) {
+      const groupData = data.payload[0];
+      return groupData;
+    }
+  } catch (err) {
+    console.error(
+      `Error: LookupTourneyEventsGroupByTourneyId by ${eventId}`,
+      err
+    );
+  }
+  return null;
+};

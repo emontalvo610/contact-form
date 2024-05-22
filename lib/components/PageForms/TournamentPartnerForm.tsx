@@ -2,6 +2,7 @@
 
 import { ContactType } from '@lib/hooks/contact';
 import type { IAttendeeActivity } from '@lib/types/attendee-activity';
+import type { IEventGroup } from '@lib/types/event-group';
 import type { IUser } from '@lib/types/user';
 import { getAllMixDoubleSkillOptions } from '@lib/utils/mixDoubleSkill';
 
@@ -11,6 +12,7 @@ interface IFormProps {
   ip: string;
   user?: IUser;
   attendeeActivity: IAttendeeActivity;
+  eventGroup: IEventGroup;
 }
 export default function TournamentPartnerForm(props: IFormProps) {
   const mixDoubleSkillOptions = getAllMixDoubleSkillOptions();
@@ -18,6 +20,7 @@ export default function TournamentPartnerForm(props: IFormProps) {
     eventUuid: props.attendeeActivity.ActivityID,
     userUuid: props.attendeeActivity.UserID
   };
+  const skillLabel = `${props.eventGroup.PlayerGroupTitle} ${props.eventGroup.FormatTitle} Skill`;
 
   return (
     <ContactFormGeneralTemplate
@@ -32,6 +35,7 @@ export default function TournamentPartnerForm(props: IFormProps) {
       mixDoubleSkillOptions={mixDoubleSkillOptions}
       contactType={ContactType.TournamentPartner}
       extraPayload={extraPayload}
+      skillLabel={skillLabel}
     />
   );
 }

@@ -1,4 +1,5 @@
 export interface IAttendeeActivity {
+  EventID: string;
   ActivityID: string;
   AttendeeActivityID: string;
   FirstName: string;

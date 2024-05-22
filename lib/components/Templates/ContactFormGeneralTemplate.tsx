@@ -45,6 +45,7 @@ interface IFormProps {
   user?: IUser;
   platform?: string;
   extraPayload?: Record<string, any>;
+  skillLabel?: string;
 }
 
 export default function ContactFormGeneralTemplate(props: IFormProps) {
@@ -146,7 +147,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
       if (skill) {
         clearErrors('skill');
       } else {
-        setError('skill', { message: 'Mix Double Skill is required' });
+        setError('skill', { message: `${props.skillLabel} is required` });
         valid = false;
       }
     }
@@ -337,7 +338,7 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
             )}
             {Number(props.mixDoubleSkillOptions?.length) > 0 && (
               <div className="mt-3 text-left">
-                <div className="input-label">Mix Double Skill</div>
+                <div className="input-label">{props.skillLabel}</div>
                 <Select
                   className="select-basic"
                   instanceId="mix-double-skill-select"
