@@ -4,7 +4,6 @@ import TermsAndPolicy from '@components/Footers/TermsAndPolicy';
 import { useGetOrganizationTypes } from '@lib/hooks/club';
 import { type ContactType, usePostContact } from '@lib/hooks/contact';
 import { useGetCountries } from '@lib/hooks/country';
-import { validateRecaptchaToken } from '@lib/server/recaptcha';
 import type { IContactAnyRequest } from '@lib/types/contact';
 import type { ILocation } from '@lib/types/location';
 import type { ICountrySelectOption, ISelectOption } from '@lib/types/select';
@@ -222,34 +221,36 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
     const isValid = checkManualValidation() && (await trigger());
     if (!isValid) return;
     if (!executeRecaptcha) return;
-    let isHuman = false;
     setLoading(true);
+    let captchaToken = '';
     try {
-      const token = await executeRecaptcha();
-      if (!token) {
-        setRecaptchaResult(false);
-        setLoading(false);
-        return;
+      captchaToken = await executeRecaptcha();
+      if (!captchaToken) {
+        throw Error('No captcha token found');
       }
-      isHuman = await validateRecaptchaToken(token);
-      setRecaptchaResult(isHuman);
     } catch (err) {
       console.error(err);
+      setLoading(false);
       setRecaptchaResult(false);
+      return;
     }
 
-    if (isHuman) {
-      try {
-        const body = { ...getValues(), ...(props.extraPayload || {}) };
-        await postContact(body);
-        router.push(`/request-success?platform=${props.contactType}`);
-      } catch (err) {
-        setError('root.server', {
-          message: 'Something went wrong. Please try again some time later'
-        });
-      } finally {
-        setLoading(false);
-      }
+    try {
+      const body = {
+        ...getValues(),
+        ...(props.extraPayload || {}),
+        captchaToken
+      };
+      await postContact(body);
+      router.push(`/request-success?platform=${props.contactType}`);
+    } catch (err: any) {
+      setError('root.server', {
+        message:
+          err.response?.data?.message ||
+          'Something went wrong. Please try again some time later'
+      });
+    } finally {
+      setLoading(false);
     }
   };
 

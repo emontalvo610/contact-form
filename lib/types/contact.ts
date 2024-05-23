@@ -14,6 +14,7 @@ export interface IContactBase {
   phone: string;
   description: string;
   contactReason?: string;
+  captchaToken: string;
 }
 
 export interface IContactRequest extends IContactBase {

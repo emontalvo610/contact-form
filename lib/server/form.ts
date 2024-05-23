@@ -6,16 +6,16 @@ import type {
 import axios from 'axios';
 
 export const requestContact = (body: IContactRequest, platform: string) => {
-  const apiUrl = `/api/proxy/v2/contact_forms?platform=${platform}`;
+  const apiUrl = `/api/contact/v2/contact_forms?platform=${platform}`;
   return axios.post(apiUrl, body);
 };
 
 export const requestContactCreate = (body: IContactCreateRequest) => {
-  const apiUrl = '/api/proxy/v2/contact_forms_create_module';
+  const apiUrl = '/api/contact/v2/contact_forms_create_module';
   return axios.post(apiUrl, body);
 };
 
 export const requestContactPartner = (body: IContactPartnerRequest) => {
-  const apiUrl = '/api/proxy/v2/contact_forms_request_partner';
+  const apiUrl = '/api/contact/v2/contact_forms_request_partner';
   return axios.post(apiUrl, body);
 };
