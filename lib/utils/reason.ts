@@ -7,7 +7,11 @@ export const ContactReasonMap = {
   REQUEST_PARTNER_CHANGE_CONTACT_FORM_REASON: 'Request Partner Change',
   SPONSOR_CONTACT_FORM_REASON: 'Sponsors',
   VENDOR_CONTACT_FORM_REASON: 'Vendors',
-  VOLUNTEER_CONTACT_FORM_REASON: 'Volunteers'
+  VOLUNTEER_CONTACT_FORM_REASON: 'Volunteers',
+  FEATURED_TOURNAMENTS_REQUEST_FORM_REASON: 'Featured Tournaments Request',
+  TOURS_AND_SERIES_REQUEST_FORM_REASON: 'Tours and Series Request',
+  PARTNERS_REQUEST_FORM_REASON: 'Partners Request',
+  ASSOCIATIONS_REQUEST_FORM_REASON: 'Associations Request'
 } as const;
 
 export type ContactReasonType = keyof typeof ContactReasonMap;

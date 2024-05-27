@@ -43,7 +43,11 @@ export default function PickleballContactForm(props: IFormProps) {
   const contactReasonOptions = getContactReasonOptions([
     'REGISTRATION_CONTACT_FORM_REASON',
     'MY_WEBSITE_ACCOUNT_CONTACT_FORM_REASON',
-    'OTHER_CONTACT_FORM_REASON'
+    'OTHER_CONTACT_FORM_REASON',
+    'FEATURED_TOURNAMENTS_REQUEST_FORM_REASON',
+    'TOURS_AND_SERIES_REQUEST_FORM_REASON',
+    'PARTNERS_REQUEST_FORM_REASON',
+    'ASSOCIATIONS_REQUEST_FORM_REASON'
   ]);
   const extraPayload = {
     moduleFor: ContactModule.GLOBAL_SYSTEM_MODULE_TYPE,
