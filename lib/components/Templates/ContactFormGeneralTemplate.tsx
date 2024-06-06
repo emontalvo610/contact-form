@@ -45,6 +45,7 @@ interface IFormProps {
   platform?: string;
   extraPayload?: Record<string, any>;
   skillLabel?: string;
+  additionalNotes?: ReactNode;
 }
 
 export default function ContactFormGeneralTemplate(props: IFormProps) {
@@ -415,6 +416,11 @@ export default function ContactFormGeneralTemplate(props: IFormProps) {
                 We were unable to verify that you are not a robot. Please ensure
                 your browser has cookies and JavaScript enabled.
               </ErrorWrapper>
+            )}
+            {props.additionalNotes && (
+              <div className="mt-8">
+                <AlertWrapper>{props.additionalNotes}</AlertWrapper>
+              </div>
             )}
             <Button
               variant="primary"

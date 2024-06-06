@@ -9,7 +9,7 @@ const LinkSignup = () => {
 
   return (
     <a href={`${process.env.NEXT_PUBLIC_PB_SSO_URI}?redirect=${redirect}`}>
-      Click here to sign up.
+      Click here to create a Pickleball.com account
     </a>
   );
 };

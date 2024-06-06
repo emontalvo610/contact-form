@@ -14,6 +14,18 @@ interface IFormProps {
   attendeeActivity: IAttendeeActivity;
   eventGroup: IEventGroup;
 }
+
+const AdditionalNotes = () => {
+  return (
+    <>
+      Please note, this is a request only. Submitting this form does not
+      guarantee that you will be partnered. Both parties must agree and complete
+      registration to confirm their partnership. It is not the responsibility of
+      the tournament to facilitate the partnership.
+    </>
+  );
+};
+
 export default function TournamentPartnerForm(props: IFormProps) {
   const mixDoubleSkillOptions = getAllMixDoubleSkillOptions();
   const extraPayload = {
@@ -36,6 +48,7 @@ export default function TournamentPartnerForm(props: IFormProps) {
       contactType={ContactType.TournamentPartner}
       extraPayload={extraPayload}
       skillLabel={skillLabel}
+      additionalNotes={<AdditionalNotes />}
     />
   );
 }

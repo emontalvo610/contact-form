@@ -15,7 +15,7 @@ interface IFormProps {
 const HelpAlert = () => {
   return (
     <>
-      Permissions are REQUIRED on a user's account to create new tournaments.
+      Permissions are REQUIRED on a user's account to create new leagues.
       <br />
       <br />
       All league directors and managers{' '}
@@ -42,7 +42,7 @@ export default function LeagueCreateForm(props: IFormProps) {
       ip={props.ip}
       user={props.user}
       alertContent={<HelpAlert />}
-      title="New League"
+      title="Create My First League"
       subtitle="Complete the form below."
       contactType={ContactType.LeagueCreate}
       extraPayload={extraPayload}
